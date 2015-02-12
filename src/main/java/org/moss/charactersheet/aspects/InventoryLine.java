@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
-import org.moss.charactersheet.gui.GenerateInvGui;
+import org.moss.charactersheet.gui.InventoryGui;
 
 public class InventoryLine {
 	public static final String WEIGHT_CHANGE = "value";
@@ -22,7 +22,7 @@ public class InventoryLine {
 	private JPanel gear;
 
 	public InventoryLine(JPanel gear, GridBagConstraints constraints,
-			GenerateInvGui listener, NumberFormatter formatter) {
+			InventoryGui listener, NumberFormatter formatter) {
 		this.gear = gear;
 
 		textItem = new JTextField(20);

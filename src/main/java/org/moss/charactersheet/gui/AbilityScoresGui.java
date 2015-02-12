@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.AbilityScores;
 import org.moss.charactersheet.aspects.enums.AbilityScore;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -20,21 +21,16 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GenerateAbilityScoresGui
+public class AbilityScoresGui implements GenerateGui
 {
     /**
      * Creates new generator
      */
-    public GenerateAbilityScoresGui()
+    public AbilityScoresGui()
     {
     }
     
-    /**
-     * Generates the components required and adds them to the list of components to add to the
-     * appropriate panel.
-     * Also builds on the layout.
-     * @return JPanel
-     */
+    @Override
     public JPanel generate()
     {
         JPanel abilityScores = new JPanel(new GridBagLayout());
@@ -175,4 +171,16 @@ public class GenerateAbilityScoresGui
         }
         return abilityScores;
     }
+
+	@Override
+	public FullCharacter save() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -21,8 +21,8 @@ import org.moss.charactersheet.impl.enums.Size;
  */
 public class CharacterInfo {
 
-	private String name;
-	private String player;
+	private String characterName;
+	private String playerName;
 	private String clazz;
 	private int level;
 	private int ecl;
@@ -37,8 +37,8 @@ public class CharacterInfo {
 
 	public CharacterInfo(String name, String player, String clazz, int level, int ecl, String religion,
 			Alignment align, Size size, Gender gender, String race, int height, int weight, String looks) {
-		this.name = name;
-		this.player = player;
+		this.characterName = name;
+		this.playerName = player;
 		this.level = level;
 		this.clazz = clazz;
 		this.ecl = ecl;
@@ -50,6 +50,9 @@ public class CharacterInfo {
 		this.height = height;
 		this.weight = weight;
 		this.looks = looks;
+	}
+
+	public CharacterInfo() {
 	}
 
 	/**
@@ -112,11 +115,11 @@ public class CharacterInfo {
 	}
 
 	public String getName() {
-		return name;
+		return characterName;
 	}
 
 	public String getPlayer() {
-		return player;
+		return playerName;
 	}
 
 	public String getClazz() {

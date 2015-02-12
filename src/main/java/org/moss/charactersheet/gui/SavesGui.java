@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.Saves;
 import org.moss.charactersheet.aspects.enums.Save;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -22,22 +23,18 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GenerateSavesGui
+public class SavesGui implements GenerateGui
 {
     private Map<Save, Saves> savingThrowsMap = new HashMap<>();
 
     /**
      * Creates new generator
      */
-    public GenerateSavesGui()
+    public SavesGui()
     {
     }
 
-    /**
-     * Generates the components required and adds them to the list.
-     * Also builds on the layout.
-     * @return JPanel
-     */
+    @Override
     public JPanel generate()
     {
         JPanel savingThrows = new JPanel(new GridBagLayout());
@@ -179,4 +176,17 @@ public class GenerateSavesGui
 
         return savingThrows;
     }
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

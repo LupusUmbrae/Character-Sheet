@@ -1,11 +1,9 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -14,6 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -28,35 +27,32 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GenerateMagicGui implements GenerateGui
+public class MagicGui implements GenerateGui
 {
 
-    private List<Component> components;
     private Font small;
     private JPanel allMagic = new JPanel(new GridBagLayout());
     private GridBagConstraints consts = new GridBagConstraints();
 
     /**
-     * Creates generator for all magic components and adds to given list
-     * @param components
+     * Creates generator for all magic components
      */
-    public GenerateMagicGui(List<Component> components)
+    public MagicGui()
     {
-        this.components = components;
         consts.insets = new Insets(0, 2, 2, 0);
         small = new Font("Verdana", Font.BOLD, 8);
     }
 
     /**
-     * Generates magic screen and adds to previously provided list
+     * Generates magic screen
      */
     @Override
-    public void generate()
+    public JPanel generate()
     {
         generateMagicBox();
         generateSpellBox();
         generateSpellList();
-        components.add(allMagic);
+        return allMagic;
     }
 
     private void generateSpellList()
@@ -285,5 +281,18 @@ public class GenerateMagicGui implements GenerateGui
         
         allMagic.add(magicPanel);
     }
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

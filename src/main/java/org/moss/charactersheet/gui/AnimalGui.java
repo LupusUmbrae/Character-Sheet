@@ -16,37 +16,33 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.aspects.enums.Save;
+import org.moss.charactersheet.impl.FullCharacter;
 
 /**
  * Generate GUI for Animal Companion
  * @author Jacq
  *
  */
-public class GenerateAnimalGui implements GenerateGui {
+public class AnimalGui implements GenerateGui
+{
 
-	List<Component> pageComponents;
 	JPanel animalInfo = new JPanel(new GridBagLayout());
 	GridBagConstraints animCons = new GridBagConstraints();
 	
 	/**
-	 * Create new generator with a given list of components to build the GUI
-	 * @param components
+	 * Create new generator to build the GUI
 	 */
-	public GenerateAnimalGui(List<Component> components) {
-		this.pageComponents = components;
+	public AnimalGui() {
 	}
-	
-	/**
-	 * Build Animal Companion GUI using previously provided component list
-	 */
+
 	@Override
-	public void generate() {
+	public JPanel generate() {
 		addBasicInfo();
 		addStats();
 		addAC();
 		addAttackStats();
 		addSkills();
-		pageComponents.add(animalInfo);
+		return animalInfo;
 	}
 
 	private void addBasicInfo() {
@@ -124,7 +120,7 @@ public class GenerateAnimalGui implements GenerateGui {
 	}
 
 	private void addAC() {
-		GenerateAcGui acGUI = new GenerateAcGui();
+		AcGui acGUI = new AcGui();
 		animCons.gridy++;
 		animalInfo.add(acGUI.generate(), animCons);		
 	}
@@ -293,5 +289,17 @@ public class GenerateAnimalGui implements GenerateGui {
 		
 		parentCons.gridx = 1;
 		parentPanel.add(bigPanel, parentCons);
+	}
+
+	@Override
+	public FullCharacter save() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 }

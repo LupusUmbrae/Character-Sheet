@@ -1,37 +1,41 @@
 package org.moss.charactersheet.gui;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.moss.charactersheet.impl.CombatStats;
+import org.moss.charactersheet.impl.FullCharacter;
+
 /**
  * Generator for combat options
  * @author Jacq
  *
  */
-public class GenerateCombatOptionsGui
+public class CombatOptionsGui implements GenerateGui
 {
+	private JPanel combatOptions;
+	private static final String BASE_ATTACK = "BaseAttack";
+	
     /**
      * Creates new generator
      */
-    public GenerateCombatOptionsGui()
+    public CombatOptionsGui()
     {
+    	this.combatOptions = new JPanel(new GridBagLayout());
     }
 
-    /**
-     * Generates the components required and adds them to the list of components to add to the
-     * appropriate panel.
-     * Also builds on the layout.
-     * @return JPanel
-     */
+    @Override
     public JPanel generate()
     {
-        JPanel combatOptions = new JPanel(new GridBagLayout());
         combatOptions.setName("CombatOpts");
         combatOptions.setBorder(BorderFactory.createTitledBorder("Combat Options"));
 
@@ -46,7 +50,7 @@ public class GenerateCombatOptionsGui
         combatOptions.add(labelBaseAttack, constraint);
 
         JTextField textBaseAttack = new JTextField(12);
-        textBaseAttack.setName("BaseAttack");
+        textBaseAttack.setName(BASE_ATTACK);
         constraint.gridx = 2;
         constraint.gridy = 0;
         constraint.gridwidth = 3;
@@ -158,4 +162,40 @@ public class GenerateCombatOptionsGui
         }
         return combatOptions;
     }
+
+	@Override
+	public FullCharacter save() throws IllegalArgumentException, IllegalAccessException {
+		int baseAttackBonus = 0;
+		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<>();
+		for (int i = 0; i < 4; i++) {
+			combatSkills.put(i, new LinkedHashMap<String, String>());
+		}
+		for (Component comp : combatOptions.getComponents()) {
+			int combatIteration = 0;
+			String compName = comp.getName();
+			if (compName == null || compName.isEmpty()) {
+				continue;
+			}
+			String value = null;
+			if (comp instanceof JTextField) {
+				value = ((JTextField) comp).getText();
+			}
+			if (compName.equalsIgnoreCase(BASE_ATTACK)) {
+				baseAttackBonus = Integer.parseInt(value);
+			} else {
+				String weaponNum = compName.substring(compName.length()-1);
+				String weaponAttr = compName.substring(0, compName.length()-1);
+				combatIteration = Integer.parseInt(weaponNum);
+				combatSkills.get(combatIteration).put(weaponAttr, value);
+			}
+		}
+		CombatStats combatInfo = new CombatStats(baseAttackBonus, combatSkills);
+		return new FullCharacter(null, null, combatInfo, null);		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

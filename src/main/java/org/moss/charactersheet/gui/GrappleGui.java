@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.Grapple;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -18,20 +19,16 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GenerateGrappleGui
+public class GrappleGui implements GenerateGui
 {
     /**
      * Creates new generator
      */
-    public GenerateGrappleGui()
+    public GrappleGui()
     {
     }
 
-    /**
-     * Generates the components required and adds them to the list.
-     * Also builds on the layout.
-     * @return JPanel
-     */
+    @Override
     public JPanel generate()
     {
         JPanel grapple = new JPanel(new GridBagLayout());
@@ -145,4 +142,17 @@ public class GenerateGrappleGui
 
         return grapple;
     }
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

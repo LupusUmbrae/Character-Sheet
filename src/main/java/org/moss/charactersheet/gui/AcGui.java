@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.ArmourClass;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -18,20 +19,16 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GenerateAcGui
+public class AcGui implements GenerateGui
 {
     /**
      * Creates new generator
      */
-    public GenerateAcGui()
+    public AcGui()
     {
     }
 
-    /**
-     * Generates the components required and adds them to the list.
-     * Also builds on the layout.
-     * @return JPanel
-     */
+    @Override
     public JPanel generate()
     {
         JPanel armourClass = new JPanel(new GridBagLayout());
@@ -243,4 +240,16 @@ public class GenerateAcGui
 
         return armourClass;
     }
+
+	@Override
+	public FullCharacter save() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

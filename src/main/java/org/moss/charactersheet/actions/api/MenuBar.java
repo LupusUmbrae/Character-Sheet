@@ -12,6 +12,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 
+import org.moss.charactersheet.gui.GenerateGui;
+
 /**
  * Constructs menu bar
  * @author Jacq
@@ -19,11 +21,13 @@ import javax.swing.JTextField;
  */
 public class MenuBar {
 
-	private final Container container;
+	private final List<GenerateGui> generators;
 	private final List<Component> components;
+	private Container container;
 	
-	public MenuBar(Container container, List<Component> components) {
+	public MenuBar(List<GenerateGui> generators, Container container, List<Component> components) {
 		this.components = components;
+		this.generators = generators;
 		this.container = container;
 	}
 
@@ -67,7 +71,7 @@ public class MenuBar {
 		saveItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SaveAction.save(container);
+				SaveAction.save(container, generators);
 			}
 		});
 		JMenuItem loadItem = new JMenuItem("Load", KeyEvent.VK_L);

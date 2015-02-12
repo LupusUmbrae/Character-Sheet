@@ -10,20 +10,23 @@ package org.moss.charactersheet.impl;
  * @author Jacq
  *
  */
-public class Character {
+public class FullCharacter {
 
 	private CharacterInfo info;
 	private AbilityStats abilityStats;
 	private CombatStats combatStats;
 	private SaveStats saveStats;
 	
-	public Character(CharacterInfo info, AbilityStats abilityStats, CombatStats combatStats, SaveStats saveStats) {
+	public FullCharacter(CharacterInfo info, AbilityStats abilityStats, CombatStats combatStats, SaveStats saveStats) {
 		this.info = info;
 		this.abilityStats = abilityStats;
 		this.combatStats = combatStats;
 		this.saveStats = saveStats;
 	}
 	
+	public FullCharacter() {
+	}
+
 	public CharacterInfo getCharInfo() {
 		return info;
 	}

@@ -1,6 +1,5 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,8 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +22,7 @@ import javax.swing.SwingConstants;
 import org.moss.charactersheet.aspects.SkillInfo;
 import org.moss.charactersheet.aspects.enums.Skill;
 import org.moss.charactersheet.dialog.AddSkillDialog;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 
@@ -34,30 +32,26 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  * 
  */
-public class GenerateSkillsGui implements ActionListener, GenerateGui
+public class SkillsGui implements ActionListener, GenerateGui
 {
-    private List<Component> pageComponents = new ArrayList<Component>();
     private JPanel skills;
     private int index;
 
     /**
-     * Creates new generator which can be used to add to given list
-     * 
-     * @param components
+     * Creates new generator
      */
-    public GenerateSkillsGui(List<Component> components)
+    public SkillsGui()
     {
-        this.pageComponents = components;
+    	this.skills = new JPanel(new GridBagLayout());
     }
 
     /**
-     * Generates the components required and adds them to the list.
-     * Also builds on the layout.
+     * Generates the components required
      */
     @Override
-    public void generate()
+    public JPanel generate()
     {
-        skills = createSkillsOutline();
+    	createSkillsOutline();
         addSkillsToPanel(skills);
 
         JButton btnAddSkill = new JButton("Add New Skill...");
@@ -67,7 +61,7 @@ public class GenerateSkillsGui implements ActionListener, GenerateGui
         constraints.gridy = Skill.getValues().size() + 2;
         skills.add(btnAddSkill, constraints);
         
-        pageComponents.add(skills);
+        return skills;
     }
 
     /**
@@ -75,9 +69,8 @@ public class GenerateSkillsGui implements ActionListener, GenerateGui
      * 
      * @return JPanel
      */
-    private JPanel createSkillsOutline()
+    private void createSkillsOutline()
     {
-        JPanel skills = new JPanel(new GridBagLayout());
         skills.setBorder(BorderFactory.createTitledBorder("Character Skills"));
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -126,8 +119,6 @@ public class GenerateSkillsGui implements ActionListener, GenerateGui
         labelMisc.setFont(small);
         constraints.gridx++;
         skills.add(labelMisc, constraints);
-
-        return skills;
     }
 
     /**
@@ -289,4 +280,17 @@ public class GenerateSkillsGui implements ActionListener, GenerateGui
             }
         }
     }
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

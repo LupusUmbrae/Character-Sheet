@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -17,12 +18,13 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.moss.charactersheet.actions.api.MenuBar;
 import org.moss.charactersheet.aspects.enums.Skill;
-import org.moss.charactersheet.gui.GenerateAnimalGui;
-import org.moss.charactersheet.gui.GenerateCharInfoGui;
-import org.moss.charactersheet.gui.GenerateFeatsGui;
-import org.moss.charactersheet.gui.GenerateInvGui;
-import org.moss.charactersheet.gui.GenerateMagicGui;
-import org.moss.charactersheet.gui.GenerateSkillsGui;
+import org.moss.charactersheet.gui.AnimalGui;
+import org.moss.charactersheet.gui.CharInfoGui;
+import org.moss.charactersheet.gui.FeatsGui;
+import org.moss.charactersheet.gui.GenerateGui;
+import org.moss.charactersheet.gui.InventoryGui;
+import org.moss.charactersheet.gui.MagicGui;
+import org.moss.charactersheet.gui.SkillsGui;
 
 
 public class CharacterSheet extends JFrame
@@ -64,6 +66,16 @@ public class CharacterSheet extends JFrame
 
     private void init()
     {
+    	// GUI Generators
+    	CharInfoGui charInfoGen = new CharInfoGui();
+    	SkillsGui skillsGen = new SkillsGui();
+    	FeatsGui featsGen = new FeatsGui();
+        InventoryGui invGen = new InventoryGui();
+        MagicGui magicGen = new MagicGui();
+        AnimalGui animalGen = new AnimalGui();
+        final List<GenerateGui> generators = Arrays.asList(charInfoGen, skillsGen, featsGen,
+        		                                           invGen, magicGen, animalGen);
+    	
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Character Sheet");
 
@@ -97,45 +109,39 @@ public class CharacterSheet extends JFrame
         tabbedPanel.addTab("Animals", tabPanel6);
 
         contentPane.add(tabbedPanel);
-        setJMenuBar(new MenuBar(tabbedPanel, page1Components).createMenuBar());
+        setJMenuBar(new MenuBar(generators, tabbedPanel, page1Components).createMenuBar());
         
         this.setPreferredSize(new Dimension(850, 1000));
 
         /*
          * Generate components for first page
          */
-        GenerateCharInfoGui charInfoGen = new GenerateCharInfoGui(page1Components);
-        charInfoGen.generate();
+        page1Components.add(charInfoGen.generate());
 
         /*
          * Generate components for second page
          */
-        GenerateSkillsGui skillsGen = new GenerateSkillsGui(page2Components);
-        skillsGen.generate();
+        page2Components.add(skillsGen.generate());
         
         /*
          * Generate components for third page
          */
-        GenerateFeatsGui featsGen = new GenerateFeatsGui(page3Components);
-        featsGen.generate();
+        page3Components.add(featsGen.generate());
         
         /*
          * Generate components for fourth page
          */
-        GenerateInvGui invGen = new GenerateInvGui(page4Components);
-        invGen.generate();
+        page4Components.add(invGen.generate());
         
         /*
          * Generate components for fifth page
          */
-        GenerateMagicGui magicGui = new GenerateMagicGui(page5Components);
-        magicGui.generate();
+        page5Components.add(magicGen.generate());
         
         /*
          * Generate components for sixth page
          */
-        GenerateAnimalGui animGui = new GenerateAnimalGui(page6Components);
-        animGui.generate();
+        page6Components.add(animalGen.generate());
         
         /*
          * Add all components to appropriate tab panels

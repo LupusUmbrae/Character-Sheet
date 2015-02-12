@@ -1,6 +1,5 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,7 +10,6 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -22,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import org.moss.charactersheet.aspects.InventoryLine;
+import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.ListenerFactory;
 import org.moss.charactersheet.util.listeners.Accumulator;
 
@@ -36,11 +35,10 @@ import org.moss.charactersheet.util.listeners.Accumulator;
  * @author Jacq
  *
  */
-public class GenerateInvGui implements ActionListener, PropertyChangeListener, GenerateGui
+public class InventoryGui implements ActionListener, PropertyChangeListener, GenerateGui
 {
 
     private static final String WEIGHT = "weight";
-    private List<Component> components;
     private NumberFormatter formatter;
 
     private static final JButton BTN_ADD_ITEM = new JButton("Add Item...");
@@ -54,13 +52,10 @@ public class GenerateInvGui implements ActionListener, PropertyChangeListener, G
     private Map<JButton, InventoryLine> inventory = new HashMap<>();
 
     /**
-     * Creates generator for inventory and adds to given list of components
-     * @param components
+     * Creates generator for inventory
      */
-    public GenerateInvGui(List<Component> components)
+    public InventoryGui()
     {
-        this.components = components;
-
         DecimalFormat numberFormat = new DecimalFormat("#,##0.00");
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMaximumIntegerDigits(3);
@@ -84,15 +79,16 @@ public class GenerateInvGui implements ActionListener, PropertyChangeListener, G
     }
 
     /**
-     * Generates inventory screen and adds to previously provided list
+     * Generates inventory screen
+     * @return 
      */
     @Override
-    public void generate()
+    public JPanel generate()
     {
         addMiscPanel();
         addGearPanel();
         addMagicItemsPanel();
-        components.add(inv);
+        return inv;
     }
 
     private void addMiscPanel()
@@ -420,4 +416,17 @@ public class GenerateInvGui implements ActionListener, PropertyChangeListener, G
             }
         }
     }
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
+	}
 }

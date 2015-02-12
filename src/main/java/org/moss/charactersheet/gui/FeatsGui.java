@@ -1,43 +1,42 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.moss.charactersheet.impl.FullCharacter;
+
 /**
  * Generator for Feats and Special Abilities
  * @author Jacq
  *
  */
-public class GenerateFeatsGui implements GenerateGui {
+public class FeatsGui implements GenerateGui {
 
 	private JPanel featsEtc = new JPanel(new GridBagLayout());
 	private GridBagConstraints consts = new GridBagConstraints();
-	private List<Component> pageComponents;
 	
 	/**
-	 * Creates generator for Feats and SA with list of given components to build on
+	 * Creates generator for Feats and SA
 	 * @param pageComponents
 	 */
-	public GenerateFeatsGui(List<Component> pageComponents) {
-		this.pageComponents = pageComponents;
+	public FeatsGui() {
 	}
 
 	/**
-	 * Generates GUI by adding components to previously provided list
+	 * Generates Feats GUI components
+	 * @return 
 	 */
 	@Override
-	public void generate() {
+	public JPanel generate() {
 		addFeats();
 		addSpecialAbilities();
-		pageComponents.add(featsEtc);
+		return featsEtc;
 	}
 
 	private void addFeats() {
@@ -93,5 +92,18 @@ public class GenerateFeatsGui implements GenerateGui {
 		
 		consts.gridy = 1;
 		featsEtc.add(specAbs, consts);
+	}
+
+	@Override
+	public FullCharacter save() {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void load() {
+		// TODO Auto-generated method stub
+		
 	}
 }
