@@ -105,19 +105,19 @@ public class SkillsGui implements ActionListener, GenerateGui
         // Ability Mod
         JLabel labelAbMod = new JLabel(LabelUtils.multiLine("Ability \nModifier"));
         labelAbMod.setFont(small);
-        constraints.gridx++;
+        constraints.gridx += 2;
         skills.add(labelAbMod, constraints);
 
         // Ranks
         JLabel labelRanks = new JLabel("Ranks");
         labelRanks.setFont(small);
-        constraints.gridx++;
+        constraints.gridx += 2;
         skills.add(labelRanks, constraints);
 
         // Misc
         JLabel labelMisc = new JLabel(LabelUtils.multiLine("Misc \nModifier"));
         labelMisc.setFont(small);
-        constraints.gridx++;
+        constraints.gridx += 2;
         skills.add(labelMisc, constraints);
     }
 

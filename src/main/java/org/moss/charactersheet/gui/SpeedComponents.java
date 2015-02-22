@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.impl.SpeedAndInitiative;
 
 /**
  * Generator for speed etc
@@ -22,7 +23,8 @@ import org.moss.charactersheet.impl.FullCharacter;
  */
 public class SpeedComponents implements GenerateGui
 {
-	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
+	private static final Map<String, JTextField> ELEMENTS = new LinkedHashMap<>();
+	private JPanel miniPanel;
 	
 	static {
 		ELEMENTS.put("Speed", new JTextField(30));
@@ -34,15 +36,16 @@ public class SpeedComponents implements GenerateGui
      */
     public SpeedComponents()
     {
+    	this.miniPanel = new JPanel(new GridBagLayout());
     }
 
     @Override
     public JPanel generate()
     {
     	List<Component> comps = new LinkedList<>();
-        for (Entry<String, Component> elem : ELEMENTS.entrySet()) {
+        for (Entry<String, JTextField> elem : ELEMENTS.entrySet()) {
         	String compName = elem.getKey();
-        	Component comp = elem.getValue();
+        	JTextField comp = elem.getValue();
         	JLabel label = new JLabel(compName);
         	comp.setName(compName);
         	comps.add(label);
@@ -50,7 +53,6 @@ public class SpeedComponents implements GenerateGui
         }
 
         // [Speed] [Initiative]
-        JPanel miniPanel = new JPanel(new GridBagLayout());
         GridBagConstraints consts = new GridBagConstraints();
         consts.gridx = 0;
         consts.gridy = 0;
@@ -68,9 +70,14 @@ public class SpeedComponents implements GenerateGui
 
 	@Override
 	public FullCharacter save() {
-		return null;
-		// TODO Auto-generated method stub
+		JTextField speedField = ELEMENTS.get("Speed");
+		int speed = Integer.parseInt(speedField.getText());
 		
+		JTextField initField = ELEMENTS.get("Initiative");
+		int initiative = Integer.parseInt(initField.getText());
+		
+		SpeedAndInitiative spIni = new SpeedAndInitiative(speed, initiative);
+		return new FullCharacter(null, null, null, spIni, null, null, null);
 	}
 
 	@Override

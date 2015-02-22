@@ -94,24 +94,28 @@ public class CharacterSheet extends JFrame
         tabPanel6 = new JPanel(layout);
 
         JScrollPane pane1 = new JScrollPane();
-        tabPanel1.setPreferredSize(new Dimension(700, 1000));
+        tabPanel1.setPreferredSize(new Dimension(800, 1000));
         pane1.setViewportView(tabPanel1);
 
         JScrollPane pane2 = new JScrollPane();
-        tabPanel2.setPreferredSize(new Dimension(815, Skill.getValues().size()*25));
+        tabPanel2.setPreferredSize(new Dimension(800, Skill.getValues().size()*25));
         pane2.setViewportView(tabPanel2);
 
+        JScrollPane pane6 = new JScrollPane();
+        tabPanel6.setPreferredSize(new Dimension(800, 1000));
+        pane6.setViewportView(tabPanel6);
+        
         tabbedPanel.addTab("Overview", pane1);
         tabbedPanel.addTab("Skills", pane2);
         tabbedPanel.addTab("Feats and Special Abilities", tabPanel3);
         tabbedPanel.addTab("Inventory", tabPanel4);
         tabbedPanel.addTab("Magic", tabPanel5);
-        tabbedPanel.addTab("Animals", tabPanel6);
+        tabbedPanel.addTab("Animals", pane6);
 
         contentPane.add(tabbedPanel);
         setJMenuBar(new MenuBar(generators, tabbedPanel, page1Components).createMenuBar());
         
-        this.setPreferredSize(new Dimension(850, 1000));
+        this.setPreferredSize(new Dimension(920, 1000));
 
         /*
          * Generate components for first page

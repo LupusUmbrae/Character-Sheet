@@ -31,14 +31,13 @@ public class CombatOptionsGui implements GenerateGui
     public CombatOptionsGui()
     {
     	this.combatOptions = new JPanel(new GridBagLayout());
+    	this.combatOptions.setName("CombatOpts");
+        this.combatOptions.setBorder(BorderFactory.createTitledBorder("Combat Options"));
     }
 
     @Override
     public JPanel generate()
     {
-        combatOptions.setName("CombatOpts");
-        combatOptions.setBorder(BorderFactory.createTitledBorder("Combat Options"));
-
         GridBagConstraints constraint = new GridBagConstraints();
 
         Font small = new Font("Verdana", Font.BOLD, 8);
@@ -190,7 +189,7 @@ public class CombatOptionsGui implements GenerateGui
 			}
 		}
 		CombatStats combatInfo = new CombatStats(baseAttackBonus, combatSkills);
-		return new FullCharacter(null, null, combatInfo, null);		
+		return new FullCharacter(null, null, combatInfo, null, null, null, null);		
 	}
 
 	@Override

@@ -22,7 +22,11 @@ public class CombatStats {
 		return baseAttack;
 	}
 	
-	public Map<Integer, Map<String, String>> getStats() {
+	public Map<Integer, Map<String, String>> getAllStats() {
 		return stats;
+	}
+	
+	public Map<String, String> getStatsForWeaponNum(int weaponNum) {
+		return stats.get(weaponNum);
 	}
 }

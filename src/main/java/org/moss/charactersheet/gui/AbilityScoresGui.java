@@ -1,9 +1,12 @@
 package org.moss.charactersheet.gui;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
@@ -13,6 +16,7 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.AbilityScores;
 import org.moss.charactersheet.aspects.enums.AbilityScore;
+import org.moss.charactersheet.impl.AbilityStats;
 import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
@@ -23,20 +27,20 @@ import org.moss.charactersheet.util.LabelUtils;
  */
 public class AbilityScoresGui implements GenerateGui
 {
+	private JPanel abilityScores;
     /**
      * Creates new generator
      */
     public AbilityScoresGui()
     {
+    	this.abilityScores = new JPanel(new GridBagLayout());
+    	this.abilityScores.setName("AbilityScores");
+    	this.abilityScores.setBorder(BorderFactory.createTitledBorder("Ability Scores"));
     }
     
     @Override
     public JPanel generate()
     {
-        JPanel abilityScores = new JPanel(new GridBagLayout());
-        abilityScores.setName("AbilityScores");
-        abilityScores.setBorder(BorderFactory.createTitledBorder("Ability Scores"));
-
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(2, 0, 0, 0);
 
@@ -174,8 +178,28 @@ public class AbilityScoresGui implements GenerateGui
 
 	@Override
 	public FullCharacter save() {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Map<String, Integer>> skills = new HashMap<>();
+		for (AbilityScore ability : AbilityScore.values()) {
+			skills.put(ability.name(), new HashMap<String, Integer>());
+		}
+		for (Component comp : abilityScores.getComponents()) {
+			String compName = comp.getName();
+			if (compName == null || compName.isEmpty()) {
+				continue;
+			}
+			if (comp instanceof JTextField) {
+				String value = ((JTextField) comp).getText();
+				int score = 0;
+				if (value != null && !value.isEmpty()) {
+					score = Integer.parseInt(value);
+				}
+				String associatedAbility = compName.substring(0, 3);
+				String modifier = compName.substring(3);
+				skills.get(associatedAbility).put(modifier, score);
+			}
+		}
+		AbilityStats stats = new AbilityStats(skills);
+		return new FullCharacter(null, stats, null, null, null, null, null);
 	}
 
 	@Override

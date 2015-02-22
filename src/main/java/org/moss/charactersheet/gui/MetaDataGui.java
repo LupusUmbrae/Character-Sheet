@@ -29,8 +29,8 @@ public class MetaDataGui implements GenerateGui
 	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
 	private static final int[] PER_LINE = new int[]{2,6,5};
 
-	private JPanel metaData = new JPanel(new GridBagLayout());
-	private GridBagConstraints mdConsts = new GridBagConstraints();
+	private JPanel metaData;
+	private GridBagConstraints mdConsts;
 
 	static {
 		ELEMENTS.put("Character Name", new JTextField(20));
@@ -53,12 +53,14 @@ public class MetaDataGui implements GenerateGui
 	 */
 	public MetaDataGui()
 	{
+		this.metaData = new JPanel(new GridBagLayout());
+		this.metaData.setName("MetaData");
+		this.mdConsts = new GridBagConstraints();
 	}
 
 	@Override
 	public JPanel generate()
 	{
-		metaData.setName("MetaData");
 		GridBagConstraints consts = new GridBagConstraints();
 		consts.gridx = 0;
 		consts.gridy = 0;
@@ -120,7 +122,7 @@ public class MetaDataGui implements GenerateGui
 				}
 			}
 		}
-		return new FullCharacter(metaInfo, null, null, null);
+		return new FullCharacter(metaInfo, null, null, null, null, null, null);
 	}
 
 	@Override

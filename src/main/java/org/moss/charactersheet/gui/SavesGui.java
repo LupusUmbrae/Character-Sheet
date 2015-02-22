@@ -1,5 +1,6 @@
 package org.moss.charactersheet.gui;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,6 +17,7 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.Saves;
 import org.moss.charactersheet.aspects.enums.Save;
 import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.impl.SaveStats;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -25,21 +27,22 @@ import org.moss.charactersheet.util.LabelUtils;
  */
 public class SavesGui implements GenerateGui
 {
-    private Map<Save, Saves> savingThrowsMap = new HashMap<>();
-
+    private static final String CONDITIONAL = "Con Mods";
+	private Map<Save, Saves> savingThrowsMap = new HashMap<>();
+    private JPanel savingThrows;
+    
     /**
      * Creates new generator
      */
     public SavesGui()
     {
+    	this.savingThrows = new JPanel(new GridBagLayout());
+    	this.savingThrows.setBorder(BorderFactory.createTitledBorder("Saving Throws"));
     }
 
     @Override
     public JPanel generate()
     {
-        JPanel savingThrows = new JPanel(new GridBagLayout());
-        savingThrows.setBorder(BorderFactory.createTitledBorder("Saving Throws"));
-
         GridBagConstraints constraint = new GridBagConstraints();
 
         Font small = new Font("Verdana", Font.BOLD, 8);
@@ -86,6 +89,7 @@ public class SavesGui implements GenerateGui
         savingThrows.add(labelConditional, constraint);
 
         JTextArea areaConditional = new JTextArea(6, 10);
+        areaConditional.setName(CONDITIONAL);
         constraint.gridx = 12;
         constraint.gridy = 1;
         constraint.gridheight = 6;
@@ -96,14 +100,17 @@ public class SavesGui implements GenerateGui
 
         for (int i = 0; i < Save.values().length; i++)
         {
+        	Save save = Save.values()[i];
+        	String saveName = save.getSaveName();
+        	
             int index = (i * 2) + 1;
 
-            JLabel labelSaveName = new JLabel(Save.values()[i].getSaveName());
+            JLabel labelSaveName = new JLabel(saveName);
             constraint.gridx = 0;
             constraint.gridy = index;
             savingThrows.add(labelSaveName, constraint);
 
-            JLabel labelAbilityName = new JLabel(Save.values()[i].getAbility().getAbilityName());
+            JLabel labelAbilityName = new JLabel(save.getAbility().getAbilityName());
             labelAbilityName.setFont(small);
             constraint.gridx = 0;
             constraint.gridy = index + 1;
@@ -112,6 +119,7 @@ public class SavesGui implements GenerateGui
             constraint.gridheight = 2;
 
             JTextField textTotal = new JTextField(2);
+            textTotal.setName(saveName + " Total");
             textTotal.setEditable(false);
             constraint.gridx = 1;
             constraint.gridy = index;
@@ -123,6 +131,7 @@ public class SavesGui implements GenerateGui
             savingThrows.add(labelEquals, constraint);
 
             JFormattedTextField textBase = new JFormattedTextField();
+            textBase.setName(saveName + " Base");
             constraint.gridx = 3;
             constraint.gridy = index;
             savingThrows.add(textBase, constraint);
@@ -133,6 +142,7 @@ public class SavesGui implements GenerateGui
             savingThrows.add(labelPlus1, constraint);
 
             JTextField textAbility = new JTextField(2);
+            textAbility.setName(saveName + " Ability");
             textAbility.setEditable(false);
             constraint.gridx = 5;
             constraint.gridy = index;
@@ -144,6 +154,7 @@ public class SavesGui implements GenerateGui
             savingThrows.add(labelPlus2, constraint);
 
             JFormattedTextField textMagic = new JFormattedTextField();
+            textMagic.setName(saveName + " Magic");
             constraint.gridx = 7;
             constraint.gridy = index;
             savingThrows.add(textMagic, constraint);
@@ -154,6 +165,7 @@ public class SavesGui implements GenerateGui
             savingThrows.add(labelPlus3, constraint);
 
             JFormattedTextField textMisc = new JFormattedTextField();
+            textMisc.setName(saveName + " Misc");
             constraint.gridx = 9;
             constraint.gridy = index;
             savingThrows.add(textMisc, constraint);
@@ -164,14 +176,15 @@ public class SavesGui implements GenerateGui
             savingThrows.add(labelPlus4, constraint);
 
             JFormattedTextField textTemp = new JFormattedTextField();
+            textTemp.setName(saveName + " Temp");
             constraint.gridx = 11;
             constraint.gridy = index;
             savingThrows.add(textTemp, constraint);
 
             constraint.gridheight = 1;
 
-            savingThrowsMap.put(Save.values()[i], new Saves(Save.values()[i], textTotal, textBase, textAbility,
-                                                            textMagic, textMisc, textTemp));
+            savingThrowsMap.put(save, new Saves(save, textTotal, textBase, textAbility,
+                                                textMagic, textMisc, textTemp));
         }
 
         return savingThrows;
@@ -179,9 +192,30 @@ public class SavesGui implements GenerateGui
 
 	@Override
 	public FullCharacter save() {
-		return null;
-		// TODO Auto-generated method stub
-		
+		Map<String, Map<String, Integer>> skills = new HashMap<>();
+		for (Save save : Save.values()) {
+			String saveName = save.getSaveName();
+			skills.put(saveName, new HashMap<String, Integer>());
+		}
+		String conMods = "";
+		for (Component comp : savingThrows.getComponents()) {
+			if (comp instanceof JTextField) {
+				String compName = comp.getName();
+				String[] parts = compName.split(" ");
+				String saveName = parts[0];
+				String modifier = parts[1];
+				String value = ((JTextField) comp).getText();
+				int score = 0;
+				if (value != null && !value.isEmpty()) {
+					score = Integer.parseInt(value);
+				}
+				skills.get(saveName).put(modifier, score);
+			} else if (comp instanceof JTextArea) {
+				conMods = ((JTextArea) comp).getText();
+			}
+		}
+		SaveStats saveStats = new SaveStats(conMods, skills);
+		return new FullCharacter(null, null, null, null, null, saveStats, null);
 	}
 
 	@Override

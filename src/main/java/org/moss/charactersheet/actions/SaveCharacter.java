@@ -9,7 +9,6 @@ import java.util.List;
 import org.moss.charactersheet.actions.api.CustomFileFilter;
 import org.moss.charactersheet.gui.CharInfoGui;
 import org.moss.charactersheet.gui.GenerateGui;
-import org.moss.charactersheet.impl.CharacterInfo;
 import org.moss.charactersheet.impl.FullCharacter;
 
 import com.google.gson.Gson;
