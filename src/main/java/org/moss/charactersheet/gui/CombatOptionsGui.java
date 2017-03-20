@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
@@ -17,14 +18,14 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.impl.CombatStats;
 import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 
 /**
  * Generator for combat options
  * @author Jacq
  *
  */
-public class CombatOptionsGui implements GenerateGui
-{
+public class CombatOptionsGui implements GenerateGui<CombatStats> {
 	private JPanel combatOptions;
 	private static final String BASE_ATTACK = "BaseAttack";
 	
@@ -66,7 +67,6 @@ public class CombatOptionsGui implements GenerateGui
 
             JTextField weapon = new JTextField(8);
             weapon.setName("Weapon" + i);
-            // weapon.setFont(medium);
             constraint.gridx = 0;
             constraint.gridy = index;
             combatOptions.add(weapon, constraint);
@@ -79,7 +79,6 @@ public class CombatOptionsGui implements GenerateGui
 
             JTextField attackBonus = new JTextField(8);
             attackBonus.setName("AttackBonus" + i);
-            // attackBonus.setFont(medium);
             constraint.gridx = 1;
             constraint.gridy = index;
             constraint.gridwidth = 2;
@@ -96,7 +95,6 @@ public class CombatOptionsGui implements GenerateGui
 
             JTextField damage = new JTextField(4);
             damage.setName("Damage" + i);
-            // damage.setFont(medium);
             constraint.gridx = 3;
             constraint.gridy = index;
             combatOptions.add(damage, constraint);
@@ -109,7 +107,6 @@ public class CombatOptionsGui implements GenerateGui
 
             JTextField crit = new JTextField(4);
             crit.setName("Crit" + i);
-            // crit.setFont(medium);
             constraint.gridx = 4;
             constraint.gridy = index;
             combatOptions.add(crit, constraint);
@@ -166,11 +163,9 @@ public class CombatOptionsGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() throws IllegalAccessException {
+	public CombatStats save() {
 		int baseAttackBonus = 0;
-		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<Integer, Map<String, String>>() {{
-		   IntStream.of(4).forEach(num -> put(num - 1, emptyMap()));
-        }};
+		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<>();
 		for (Component comp : combatOptions.getComponents()) {
 			String compName = comp.getName();
 			if (compName == null || compName.isEmpty()) {
@@ -186,11 +181,15 @@ public class CombatOptionsGui implements GenerateGui
 				String weaponNum = compName.substring(compName.length()-1);
 				String weaponAttr = compName.substring(0, compName.length()-1);
 				int combatIteration = Integer.parseInt(weaponNum);
-				combatSkills.get(combatIteration).put(weaponAttr, value);
+				Map<String, String> currentEntry = combatSkills.get(combatIteration);
+				if (currentEntry == null) {
+				    currentEntry = new HashMap<>();
+                }
+                currentEntry.put(weaponAttr, value);
+                combatSkills.put(combatIteration, currentEntry);
 			}
 		}
-		CombatStats combatInfo = new CombatStats(baseAttackBonus, combatSkills);
-		return FullCharacter.builder().combatStats(combatInfo).build();
+		return new CombatStats(baseAttackBonus, combatSkills);
 	}
 
 	@Override

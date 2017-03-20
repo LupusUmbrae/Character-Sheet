@@ -1,9 +1,11 @@
 package org.moss.charactersheet.impl;
 
+import org.moss.charactersheet.interfaces.Stats;
+
 import lombok.Value;
 
 @Value
-public class ArmourClassStats {
+public class ArmourClassStats extends Stats {
 	private int base;
 	private int armourBonus;
 	private int shieldBonus;

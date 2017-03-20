@@ -22,7 +22,7 @@ import javax.swing.SwingConstants;
 import org.moss.charactersheet.aspects.SkillInfo;
 import org.moss.charactersheet.aspects.enums.Skill;
 import org.moss.charactersheet.dialog.AddSkillDialog;
-import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.LabelUtils;
 
 
@@ -32,8 +32,7 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  * 
  */
-public class SkillsGui implements ActionListener, GenerateGui
-{
+public class SkillsGui implements ActionListener, GenerateGui {
     private JPanel skills;
     private int index;
 
@@ -282,7 +281,7 @@ public class SkillsGui implements ActionListener, GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public Stats save() {
 		return null;
 		// TODO Auto-generated method stub
 		

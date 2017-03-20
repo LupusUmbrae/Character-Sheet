@@ -1,5 +1,7 @@
 package org.moss.charactersheet.impl;
 
+import org.moss.charactersheet.interfaces.Stats;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -15,7 +17,7 @@ import lombok.Value;
  */
 @Builder
 @Value
-public class FullCharacter {
+public class FullCharacter extends Stats {
 	private CharacterInfo info;
 	private AbilityStats abilityStats;
 	private CombatStats combatStats;

@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
+import org.moss.charactersheet.interfaces.Stats;
 
 import lombok.Builder;
 import lombok.Value;
@@ -20,7 +21,7 @@ import lombok.Value;
 /** Stores character meta data */
 @Builder
 @Value
-public class CharacterInfo {
+public class CharacterInfo extends Stats {
 
 	private String characterName;
 	private String playerName;
@@ -47,51 +48,45 @@ public class CharacterInfo {
 		Map<String, String> stringValues = new HashMap<>();
 		Map<String, Object> enumValues = new HashMap<>();
 		for (Component curComp : components) {
-			if (curComp instanceof JPanel) {
-				JPanel panel = (JPanel) curComp;
-				checkComponents(panel, stringValues, enumValues);
-				if (stringValues.size() < 10 || enumValues.size() < 3) {
-					continue;
-				}
-				return CharacterInfo.builder()
-						.characterName(stringValues.get("Character Name"))
-						.playerName(stringValues.get("Player Name"))
-						.clazz(stringValues.get("Class"))
-						.level(Integer.parseInt(stringValues.get("Level")))
-						.ecl(Integer.parseInt(stringValues.get("ECL")))
-						.religion(stringValues.get("Religion"))
-						.alignment((Alignment) enumValues.get("Alignment"))
-						.size((Size) enumValues.get("Size"))
-						.gender((Gender) enumValues.get("Gender"))
-						.race(stringValues.get("Race"))
-						.height(Integer.parseInt(stringValues.get("Height")))
-						.weight(Integer.parseInt(stringValues.get("Weight")))
-						.looks(stringValues.get("Looks"))
-						.build();
+			checkComponents(curComp, stringValues, enumValues);
+			if (stringValues.size() < 10 || enumValues.size() < 3) {
+				continue;
 			}
 		}
-		return CharacterInfo.builder().build();
+		return CharacterInfo.builder()
+				.characterName(stringValues.get("Character Name"))
+				.playerName(stringValues.get("Player Name"))
+				.clazz(stringValues.get("Class"))
+				.level(Integer.parseInt(stringValues.get("Level")))
+				.ecl(Integer.parseInt(stringValues.get("ECL")))
+				.religion(stringValues.get("Religion"))
+				.alignment((Alignment) enumValues.get("Alignment"))
+				.size((Size) enumValues.get("Size"))
+				.gender((Gender) enumValues.get("Gender"))
+				.race(stringValues.get("Race"))
+				.height(Integer.parseInt(stringValues.get("Height")))
+				.weight(Integer.parseInt(stringValues.get("Weight")))
+				.looks(stringValues.get("Looks"))
+				.build();
 	}
 
 	/**
 	 * Extracts information and stores the data in maps for later construction
-	 * @param panel
+	 * @param comp
 	 * @param stringValues
 	 * @param enumValues
 	 */
-	private static void checkComponents(JComponent panel,
-			Map<String, String> stringValues, Map<String, Object> enumValues) {
-		for (Component comp : panel.getComponents()) {
-			String compName = comp.getName();
-			if (comp instanceof JTextField) {
-				String text = ((JTextField) comp).getText();
-				stringValues.put(compName, text);
-			} else if (comp instanceof JComboBox<?>) {
-				Object value = ((JComboBox<?>) comp).getSelectedItem();
-				enumValues.put(compName, value);
-			} else if (comp instanceof JComponent) {
-				checkComponents((JComponent) comp, stringValues, enumValues);
-			}
-		}		
+	private static void checkComponents(Component comp,
+										Map<String, String> stringValues, Map<String, Object> enumValues) {
+		String compName = comp.getName();
+		if (comp instanceof JTextField) {
+			String text = ((JTextField) comp).getText();
+			stringValues.put(compName, text);
+		} else if (comp instanceof JComboBox<?>) {
+			Object value = ((JComboBox<?>) comp).getSelectedItem();
+			enumValues.put(compName, value);
+		} else if (comp instanceof JComponent) {
+			checkComponents((JComponent) comp, stringValues, enumValues);
+		}
 	}
 }

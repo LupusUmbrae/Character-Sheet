@@ -56,20 +56,9 @@ public class MenuBar {
 		newMenu.add(aniItem);
 
 		JMenuItem saveItem = new JMenuItem("Save", KeyEvent.VK_S);
-		saveItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SaveAction.save(container, generators);
-			}
-		});
+		saveItem.addActionListener(e -> SaveAction.save(container, generators));
 		JMenuItem loadItem = new JMenuItem("Load", KeyEvent.VK_L);
-		loadItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LoadAction.load(container, components);
-			}
-		});
+		loadItem.addActionListener(e -> LoadAction.load(container, components));
 
 		menu.add(newMenu);
 		menu.add(loadItem);

@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 
 /**
  * Generator for Feats and Special Abilities
@@ -95,7 +95,7 @@ public class FeatsGui implements GenerateGui {
 	}
 
 	@Override
-	public FullCharacter save() {
+	public Stats save() {
 		return null;
 		// TODO Auto-generated method stub
 		

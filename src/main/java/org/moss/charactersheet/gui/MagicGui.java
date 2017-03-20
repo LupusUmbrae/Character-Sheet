@@ -12,7 +12,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -283,7 +283,7 @@ public class MagicGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public Stats save() {
 		return null;
 		// TODO Auto-generated method stub
 		

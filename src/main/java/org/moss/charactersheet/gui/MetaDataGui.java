@@ -1,12 +1,10 @@
 package org.moss.charactersheet.gui;
 
-import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,14 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.CharacterInfo;
 import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
 
 /** Generator for character meta data */
-public class MetaDataGui implements GenerateGui {
+public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
 	private static final int[] PER_LINE = new int[]{2,6,5};
 
@@ -95,30 +92,8 @@ public class MetaDataGui implements GenerateGui {
 	}
 
 	@Override
-	public FullCharacter save() throws IllegalAccessException, NoSuchFieldException {
-		CharacterInfo metaInfo = CharacterInfo.createCharacter(emptyList());
-		for (Component comp : ELEMENTS.values()) {
-			String compName = comp.getName().replace(" ", "");
-			for (Field field : CharacterInfo.class.getDeclaredFields()) {
-				String fieldName = field.getName();
-				field.setAccessible(true);
-				Object val = null;
-				if (fieldName.equalsIgnoreCase(compName) ||
-						fieldName.equalsIgnoreCase(compName.replace("s", "z"))) {
-					if (comp instanceof JTextField) {
-						val = ((JTextField) comp).getText();
-						if (field.getType().isPrimitive()) {
-							val = Integer.parseInt(val.toString());
-						}
-					} else if (comp instanceof JComboBox<?>) {
-						val = ((JComboBox<?>) comp).getSelectedItem();
-					}
-					field.set(metaInfo, val);
-					break;
-				}
-			}
-		}
-		return FullCharacter.builder().info(metaInfo).build();
+	public CharacterInfo save() {
+		return CharacterInfo.createCharacter(ELEMENTS.values().stream().collect(toList()));
 	}
 
 	@Override

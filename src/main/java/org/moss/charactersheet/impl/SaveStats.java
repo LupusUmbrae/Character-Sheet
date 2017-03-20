@@ -2,11 +2,13 @@ package org.moss.charactersheet.impl;
 
 import java.util.Map;
 
+import org.moss.charactersheet.interfaces.Stats;
+
 import lombok.Value;
 
 /** Stores all saves for character */
 @Value
-public class SaveStats {
+public class SaveStats extends Stats {
 	private String conditionalMods;
 	private Map<String, Map<String, Integer>> stats;
 	

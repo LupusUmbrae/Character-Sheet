@@ -30,20 +30,13 @@ import org.moss.charactersheet.gui.SkillsGui;
 public class CharacterSheet extends JFrame
 {
 	private static final long serialVersionUID = 1L;
-	
-	private static final int LINE_HEIGHT = 25;
 
-    public static int getLineHeight()
-    {
-        return LINE_HEIGHT;
-    }
-
-    private List<Component> page1Components = new ArrayList<Component>();
-    private List<Component> page2Components = new ArrayList<Component>();
-    private List<Component> page3Components = new ArrayList<Component>();
-    private List<Component> page4Components = new ArrayList<Component>();
-    private List<Component> page5Components = new ArrayList<Component>();
-    private List<Component> page6Components = new ArrayList<Component>();
+    private List<Component> page1Components = new ArrayList<>();
+    private List<Component> page2Components = new ArrayList<>();
+    private List<Component> page3Components = new ArrayList<>();
+    private List<Component> page4Components = new ArrayList<>();
+    private List<Component> page5Components = new ArrayList<>();
+    private List<Component> page6Components = new ArrayList<>();
 
     private SpringLayout layout;
     /** Page 1 */

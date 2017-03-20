@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+
+    <property name="DEV_HOME" value="/Users/j.train/Projects/Character-Sheet/target"/>
+
+    <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DEV_HOME}/debug.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${DEV_HOME}/archived/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+        </rollingPolicy>
+
+    </appender>
+
+    <logger name="org.moss.charactersheet" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-AUDIT"/>
+    </logger>
+
+    <root level="debug">
+        <appender-ref ref="FILE-AUDIT"/>
+    </root>
+
+</configuration>
