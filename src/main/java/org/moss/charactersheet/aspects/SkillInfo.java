@@ -1,7 +1,5 @@
 package org.moss.charactersheet.aspects;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,27 +11,21 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import org.moss.charactersheet.aspects.enums.Skill;
-import org.moss.charactersheet.interfaces.UpdateListener;
 import org.moss.charactersheet.util.ListenerFactory;
 
 /**
  * SkillInfo holds map of Skill and the corresponding info such as the total bonus, ranks
  * and CS boolean etc.
- * @author Jacq
- *
  */
-public class SkillInfo implements UpdateListener, PropertyChangeListener
-{
+public class SkillInfo extends AbstractAspect {
     private JCheckBox classSkill;
-    private JTextField total;
     private JTextField ability;
     private JFormattedTextField ranks;
-    private JFormattedTextField misc;
 
     private Skill skill;
     private int skillScore;
 
-    public static final Map<Skill, SkillInfo> SKILL_WITH_INFO_MAP = new HashMap<Skill, SkillInfo>();
+    protected static final Map<Skill, SkillInfo> SKILL_WITH_INFO_MAP = new HashMap<>();
 
     /**
      * Creates new SkillInfo object for given skill and adds this to the <code>SKILL_WITH_INFO_MAP</code>
@@ -45,17 +37,22 @@ public class SkillInfo implements UpdateListener, PropertyChangeListener
      * @param misc
      */
     public SkillInfo(Skill skill, JCheckBox classSkillCB, JTextField total, JTextField ability,
-                     JFormattedTextField ranks, JFormattedTextField misc)
-    {
+                     JFormattedTextField ranks, JFormattedTextField misc) {
+        super(total, misc);
         this.skill = skill;
         this.classSkill = classSkillCB;
         this.total = total;
         this.ability = ability;
         this.ranks = ranks;
         this.misc = misc;
-        
-        SKILL_WITH_INFO_MAP.put(skill, this);
 
+        setupFormatters();
+        calculate();
+        SKILL_WITH_INFO_MAP.put(skill, this);
+    }
+
+    @Override
+    protected void setupFormatters() {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(0);
         numberFormat.setMaximumIntegerDigits(2);
@@ -75,41 +72,26 @@ public class SkillInfo implements UpdateListener, PropertyChangeListener
     }
 
     @Override
-    public void update(Object key, Object value)
-    {
-        if (skill.getAbility().equals(key))
-        {
-            this.ability.setText(value.toString());
-        }
-        calcBonus();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        calcBonus();
-    }
-
-    private void calcBonus()
-    {
+    protected void calculate() {
         skillScore = 0;
-
-        if (!ability.getText().isEmpty())
-        {
+        if (!ability.getText().isEmpty()) {
             skillScore += Integer.parseInt(ability.getText());
         }
-
-        if (!ranks.getText().isEmpty())
-        {
+        if (!ranks.getText().isEmpty()) {
         	int numRanks = Integer.parseInt(ranks.getText());
             skillScore += numRanks;
         }
-
-        if (!misc.getText().isEmpty())
-        {
+        if (!misc.getText().isEmpty()) {
             skillScore += Integer.parseInt(misc.getText());
         }
- 
         total.setText(Integer.toString(skillScore));
+    }
+
+    @Override
+    public void update(Object key, Object value) {
+        if (skill.getAbility().equals(key)) {
+            this.ability.setText(value.toString());
+        }
+        calculate();
     }
 }

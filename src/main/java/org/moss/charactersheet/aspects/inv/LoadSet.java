@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public class LoadSet {
 
-	private static final HashSet<Integer> LOAD_STR1 = new HashSet<Integer>();
+	private static final HashSet<Integer> LOAD_STR1 = new HashSet<>();
 	
 	static
 	{

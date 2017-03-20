@@ -101,8 +101,8 @@ public class CharInfoGui implements GenerateGui {
 	}
 
 	@Override
-	public FullCharacter save() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		FullCharacter fullChar = new FullCharacter();
+	public FullCharacter save() throws IllegalAccessException, NoSuchFieldException {
+		FullCharacter fullChar = FullCharacter.builder().build();
 		for (GenerateGui gui : guis) {
 			FullCharacter partial = gui.save();
 			if (partial != null) {

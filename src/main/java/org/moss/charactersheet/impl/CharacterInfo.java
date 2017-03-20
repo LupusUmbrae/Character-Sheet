@@ -14,11 +14,12 @@ import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
 
-/**
- * Stores character meta data
- * @author Jacq
- *
- */
+import lombok.Builder;
+import lombok.Value;
+
+/** Stores character meta data */
+@Builder
+@Value
 public class CharacterInfo {
 
 	private String characterName;
@@ -27,33 +28,13 @@ public class CharacterInfo {
 	private int level;
 	private int ecl;
 	private String religion;
-	private Alignment align;
+	private Alignment alignment;
 	private Size size;
 	private Gender gender;
 	private String race;
 	private int height;
 	private int weight;
 	private String looks;
-
-	public CharacterInfo(String name, String player, String clazz, int level, int ecl, String religion,
-			Alignment align, Size size, Gender gender, String race, int height, int weight, String looks) {
-		this.characterName = name;
-		this.playerName = player;
-		this.level = level;
-		this.clazz = clazz;
-		this.ecl = ecl;
-		this.religion = religion;
-		this.align = align;
-		this.size = size;
-		this.gender = gender;
-		this.race = race;
-		this.height = height;
-		this.weight = weight;
-		this.looks = looks;
-	}
-
-	public CharacterInfo() {
-	}
 
 	/**
 	 * Extracts information from given components and returns 
@@ -72,24 +53,24 @@ public class CharacterInfo {
 				if (stringValues.size() < 10 || enumValues.size() < 3) {
 					continue;
 				}
-				return new CharacterInfo(
-						stringValues.get("Character Name"),
-						stringValues.get("Player Name"),
-						stringValues.get("Class"),
-						Integer.parseInt(stringValues.get("Level")),
-						Integer.parseInt(stringValues.get("ECL")),
-						stringValues.get("Religion"),
-						(Alignment) enumValues.get("Alignment"),
-						(Size) enumValues.get("Size"),
-						(Gender) enumValues.get("Gender"),
-						stringValues.get("Race"),
-						Integer.parseInt(stringValues.get("Height")),
-						Integer.parseInt(stringValues.get("Weight")),
-						stringValues.get("Looks")
-						);
+				return CharacterInfo.builder()
+						.characterName(stringValues.get("Character Name"))
+						.playerName(stringValues.get("Player Name"))
+						.clazz(stringValues.get("Class"))
+						.level(Integer.parseInt(stringValues.get("Level")))
+						.ecl(Integer.parseInt(stringValues.get("ECL")))
+						.religion(stringValues.get("Religion"))
+						.alignment((Alignment) enumValues.get("Alignment"))
+						.size((Size) enumValues.get("Size"))
+						.gender((Gender) enumValues.get("Gender"))
+						.race(stringValues.get("Race"))
+						.height(Integer.parseInt(stringValues.get("Height")))
+						.weight(Integer.parseInt(stringValues.get("Weight")))
+						.looks(stringValues.get("Looks"))
+						.build();
 			}
 		}
-		return null;
+		return CharacterInfo.builder().build();
 	}
 
 	/**
@@ -112,57 +93,5 @@ public class CharacterInfo {
 				checkComponents((JComponent) comp, stringValues, enumValues);
 			}
 		}		
-	}
-
-	public String getName() {
-		return characterName;
-	}
-
-	public String getPlayer() {
-		return playerName;
-	}
-
-	public String getClazz() {
-		return clazz;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public int getEcl() {
-		return ecl;
-	}
-
-	public String getReligion() {
-		return religion;
-	}
-
-	public Alignment getAlign() {
-		return align;
-	}
-
-	public Size getSize() {
-		return size;
-	}
-
-	public Gender getGender() {
-		return gender;
-	}
-
-	public String getRace() {
-		return race;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getWeight() {
-		return weight;
-	}
-
-	public String getLooks() {
-		return looks;
 	}
 }

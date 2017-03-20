@@ -1,11 +1,14 @@
 package org.moss.charactersheet.gui;
 
+import static java.util.Collections.emptyMap;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -163,14 +166,12 @@ public class CombatOptionsGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() throws IllegalArgumentException, IllegalAccessException {
+	public FullCharacter save() throws IllegalAccessException {
 		int baseAttackBonus = 0;
-		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<>();
-		for (int i = 0; i < 4; i++) {
-			combatSkills.put(i, new LinkedHashMap<String, String>());
-		}
+		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<Integer, Map<String, String>>() {{
+		   IntStream.of(4).forEach(num -> put(num - 1, emptyMap()));
+        }};
 		for (Component comp : combatOptions.getComponents()) {
-			int combatIteration = 0;
 			String compName = comp.getName();
 			if (compName == null || compName.isEmpty()) {
 				continue;
@@ -184,12 +185,12 @@ public class CombatOptionsGui implements GenerateGui
 			} else {
 				String weaponNum = compName.substring(compName.length()-1);
 				String weaponAttr = compName.substring(0, compName.length()-1);
-				combatIteration = Integer.parseInt(weaponNum);
+				int combatIteration = Integer.parseInt(weaponNum);
 				combatSkills.get(combatIteration).put(weaponAttr, value);
 			}
 		}
 		CombatStats combatInfo = new CombatStats(baseAttackBonus, combatSkills);
-		return new FullCharacter(null, null, combatInfo, null, null, null, null);		
+		return FullCharacter.builder().combatStats(combatInfo).build();
 	}
 
 	@Override

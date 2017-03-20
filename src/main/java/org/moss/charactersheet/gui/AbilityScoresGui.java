@@ -199,7 +199,7 @@ public class AbilityScoresGui implements GenerateGui
 			}
 		}
 		AbilityStats stats = new AbilityStats(skills);
-		return new FullCharacter(null, stats, null, null, null, null, null);
+		return FullCharacter.builder().abilityStats(stats).build();
 	}
 
 	@Override

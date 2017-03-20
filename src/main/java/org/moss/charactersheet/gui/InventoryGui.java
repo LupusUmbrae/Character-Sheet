@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,18 +58,18 @@ public class InventoryGui implements ActionListener, PropertyChangeListener, Gen
         DecimalFormat numberFormat = new DecimalFormat("#,##0.00");
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMaximumIntegerDigits(3);
-        Number test;
-        try
-        {
-            test = numberFormat.parse("1.20");
-            System.out.println(test.getClass().getCanonicalName());
-            System.out.println(test);
-        }
-        catch (ParseException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        Number test;
+//        try
+//        {
+//            test = numberFormat.parse("1.20");
+//            log.info(test.getClass().getCanonicalName());
+//            log.info(test.toString());
+//        }
+//        catch (ParseException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
         this.formatter = new NumberFormatter(numberFormat);
         this.formatter.setAllowsInvalid(false);

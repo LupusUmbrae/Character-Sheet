@@ -177,7 +177,7 @@ public class GrappleGui implements GenerateGui
 				                              skills.get(STR),
 				                              skills.get(SIZE),
 				                              skills.get(MISC));
-		return new FullCharacter(null, null, null, null, stats, null, null);
+		return FullCharacter.builder().grappleStats(stats).build();
 	}
 
 	@Override

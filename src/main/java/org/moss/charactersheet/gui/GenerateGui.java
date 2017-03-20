@@ -22,7 +22,7 @@ public interface GenerateGui
      * @throws NoSuchFieldException
      * @throws SecurityException
      */
-    public FullCharacter save() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException;
+    public FullCharacter save() throws IllegalAccessException, NoSuchFieldException;
     
     /** Loads information from a save file and populates GUI */
     public void load();

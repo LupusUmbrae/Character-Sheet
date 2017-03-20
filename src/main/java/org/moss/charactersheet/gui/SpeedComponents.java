@@ -4,8 +4,8 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -77,7 +77,7 @@ public class SpeedComponents implements GenerateGui
 		int initiative = Integer.parseInt(initField.getText());
 		
 		SpeedAndInitiative spIni = new SpeedAndInitiative(speed, initiative);
-		return new FullCharacter(null, null, null, spIni, null, null, null);
+		return FullCharacter.builder().speedStats(spIni).build();
 	}
 
 	@Override

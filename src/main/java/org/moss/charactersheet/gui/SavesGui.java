@@ -215,7 +215,7 @@ public class SavesGui implements GenerateGui
 			}
 		}
 		SaveStats saveStats = new SaveStats(conMods, skills);
-		return new FullCharacter(null, null, null, null, null, saveStats, null);
+		return FullCharacter.builder().saveStats(saveStats).build();
 	}
 
 	@Override

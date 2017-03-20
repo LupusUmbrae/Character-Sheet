@@ -14,11 +14,7 @@ import org.moss.charactersheet.impl.FullCharacter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-/**
- * Saves character in JSON format
- * @author Jacq
- *
- */
+/** Saves character in JSON format */
 public class SaveCharacter {
 
 	private File saveLocation;
@@ -60,7 +56,7 @@ public class SaveCharacter {
 		return saveLocation;
 	}
 
-	public void save(List<GenerateGui> generators) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+	public void save(List<GenerateGui> generators) throws IllegalAccessException, NoSuchFieldException {
 //		FullCharacter character = new FullCharacter();
 //		for (GenerateGui gui : generators) {
 //			FullCharacter saveObject = gui.save();

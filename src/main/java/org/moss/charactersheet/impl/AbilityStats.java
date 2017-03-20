@@ -5,8 +5,6 @@ import java.util.Map;
 
 /**
  * Stores all ability scores for character
- * @author Jacq
- *
  */
 public class AbilityStats {
 

@@ -2,11 +2,10 @@ package org.moss.charactersheet.aspects.inv;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 public class WeightMap {
 
-	private static final HashMap<Integer, HashSet<Integer>> STR_LOAD_MAP = new HashMap<Integer, HashSet<Integer>>();
+	private static final HashMap<Integer, HashSet<Integer>> STR_LOAD_MAP = new HashMap<>();
 	
 	static
 	{

@@ -113,7 +113,7 @@ public class CharacterSheet extends JFrame
         tabbedPanel.addTab("Animals", pane6);
 
         contentPane.add(tabbedPanel);
-        setJMenuBar(new MenuBar(generators, tabbedPanel, page1Components).createMenuBar());
+        setJMenuBar(new MenuBar(generators, page1Components, tabbedPanel).createMenuBar());
         
         this.setPreferredSize(new Dimension(920, 1000));
 
@@ -200,12 +200,6 @@ public class CharacterSheet extends JFrame
     	    
     	}
     	
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new CharacterSheet().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new CharacterSheet().setVisible(true));
     }
 }
