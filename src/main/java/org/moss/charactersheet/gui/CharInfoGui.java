@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.services.SaveService;
 
 /**
  * Generates all components for the overall character information
@@ -36,8 +37,7 @@ public class CharInfoGui implements GenerateGui<FullCharacter> {
 	private SavesGui saveGui = new SavesGui();
 	private AcGui acGui = new AcGui();
 
-	public CharInfoGui()
-	{
+	public CharInfoGui() {
 		this.ciConstraints.insets = new Insets(2, 0, 0, 0);
 	}
 
@@ -96,20 +96,7 @@ public class CharInfoGui implements GenerateGui<FullCharacter> {
 	}
 
 	@Override
-	public FullCharacter save() {
-		return FullCharacter.builder()
-				.info(metaGui.save())
-				.abilityStats(abilitiesGui.save())
-				.combatStats(combatGui.save())
-				.speedStats(speedGui.save())
-				.saveStats(saveGui.save())
-				.grappleStats(grapGui.save())
-				.build();
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-
+	public SaveService getSaveService() {
+		return null;
 	}
 }

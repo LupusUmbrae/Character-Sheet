@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.ArmourClass;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -242,14 +242,8 @@ public class AnimalAcGui implements GenerateGui
     }
 
 	@Override
-	public Stats save() {
+	public SaveService getSaveService() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
 	}
 }

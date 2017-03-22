@@ -1,13 +1,11 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
-import java.util.Map;
 
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -17,6 +15,7 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.AbilityScores;
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.impl.AbilityStats;
+import org.moss.charactersheet.services.AbilitiesService;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -26,15 +25,18 @@ import org.moss.charactersheet.util.LabelUtils;
  */
 public class AbilityScoresGui implements GenerateGui<AbilityStats>
 {
-	private JPanel abilityScores;
+    private final AbilitiesService abilitiesService;
+    private JPanel abilityScores;
     /**
      * Creates new generator
      */
-    public AbilityScoresGui()
+    @Inject
+    public AbilityScoresGui(AbilitiesService abilitiesService)
     {
     	this.abilityScores = new JPanel(new GridBagLayout());
     	this.abilityScores.setName("AbilityScores");
     	this.abilityScores.setBorder(BorderFactory.createTitledBorder("Ability Scores"));
+    	this.abilitiesService = abilitiesService;
     }
     
     @Override
@@ -176,33 +178,7 @@ public class AbilityScoresGui implements GenerateGui<AbilityStats>
     }
 
 	@Override
-	public AbilityStats save() {
-		Map<String, Map<String, Integer>> skills = new HashMap<>();
-		for (AbilityScore ability : AbilityScore.values()) {
-			skills.put(ability.name(), new HashMap<>());
-		}
-		for (Component comp : abilityScores.getComponents()) {
-			String compName = comp.getName();
-			if (compName == null || compName.isEmpty()) {
-				continue;
-			}
-			if (comp instanceof JTextField) {
-				String value = ((JTextField) comp).getText();
-				int score = 0;
-				if (value != null && !value.isEmpty()) {
-					score = Integer.parseInt(value);
-				}
-				String associatedAbility = compName.substring(0, 3);
-				String modifier = compName.substring(3);
-				skills.get(associatedAbility).put(modifier, score);
-			}
-		}
-		return new AbilityStats(skills);
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public AbilitiesService getSaveService() {
+        return abilitiesService.withPanel(abilityScores);
 	}
 }

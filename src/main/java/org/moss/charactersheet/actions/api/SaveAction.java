@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import org.moss.charactersheet.actions.SaveCharacter;
 import org.moss.charactersheet.gui.GenerateGui;
 
-/** API Class for use by CharacterSheet. Saves current form to save file */
+/** API Class for use by CharacterSheet. Saves current form to getSaveService file */
 public class SaveAction {
 
 	public static void save(Container container, List<GenerateGui> generators) {

@@ -53,7 +53,7 @@ public class SavesGui implements GenerateGui<SaveStats> {
         constraint.gridy = 0;
         savingThrows.add(labelTotal, constraint);
 
-        JLabel labelBase = new JLabel(LabelUtils.multiLine("Base\nsave", true));
+        JLabel labelBase = new JLabel(LabelUtils.multiLine("Base\ngetSaveService", true));
         labelBase.setFont(small);
         constraint.gridx = 3;
         constraint.gridy = 0;
@@ -191,7 +191,7 @@ public class SavesGui implements GenerateGui<SaveStats> {
     }
 
 	@Override
-	public SaveStats save() {
+	public SaveStats getSaveService() {
 		Map<String, Map<String, Integer>> skills = new HashMap<>();
 		for (Save save : Save.values()) {
 			String saveName = save.getSaveName();

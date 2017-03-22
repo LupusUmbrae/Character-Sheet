@@ -1,11 +1,11 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
+import static org.moss.charactersheet.util.StatsHelper.extractStatsFromPanel;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFormattedTextField;
@@ -14,10 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.Grapple;
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.GrappleStats;
-import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.LabelUtils;
+import org.moss.charactersheet.util.StatsHelper;
 
 /**
  * Generator for grapple
@@ -159,25 +158,14 @@ public class GrappleGui implements GenerateGui<GrappleStats> {
     }
 
 	@Override
-	public GrappleStats save() {
-		Map<String, Integer> skills = new HashMap<>();
-		for (Component comp : grapple.getComponents()) {
-			if (comp instanceof JTextField) {
-				String compName =  comp.getName();
-				String value = ((JTextField) comp).getText();
-				int score = 0;
-				if (value != null && !value.isEmpty()) {
-					score = Integer.parseInt(value);
-				}
-				skills.put(compName, score);
-			}
-		}
+	public GrappleStats getSaveService() {
+		Map<String, Integer> stats = extractStatsFromPanel(grapple);
 		return new GrappleStats(
-		        skills.get(TOTAL),
-                skills.get(BAB),
-                skills.get(STR),
-                skills.get(SIZE),
-                skills.get(MISC));
+		        stats.get(TOTAL),
+                stats.get(BAB),
+                stats.get(STR),
+                stats.get(SIZE),
+                stats.get(MISC));
 	}
 
 	@Override

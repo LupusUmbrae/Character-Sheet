@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,11 +19,13 @@ import org.moss.charactersheet.impl.CharacterInfo;
 import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
+import org.moss.charactersheet.services.MetadataService;
 
 /** Generator for character meta data */
 public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
 	private static final int[] PER_LINE = new int[]{2,6,5};
+	private final MetadataService metadataService;
 
 	private JPanel metaData;
 	private GridBagConstraints mdConsts;
@@ -46,10 +49,12 @@ public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	/**
 	 * Creates new generator
 	 */
-	public MetaDataGui() {
+	@Inject
+	public MetaDataGui(MetadataService metadataService) {
 		this.metaData = new JPanel(new GridBagLayout());
 		this.metaData.setName("MetaData");
 		this.mdConsts = new GridBagConstraints();
+		this.metadataService = metadataService;
 	}
 
 	@Override
@@ -92,8 +97,8 @@ public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	}
 
 	@Override
-	public CharacterInfo save() {
-		return CharacterInfo.createCharacter(ELEMENTS.values().stream().collect(toList()));
+	public MetadataService getSaveService() {
+		return metadataService.withPanel(metaData);
 	}
 
 	@Override
