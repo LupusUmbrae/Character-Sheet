@@ -163,7 +163,7 @@ public class CombatOptionsGui implements GenerateGui<CombatStats> {
     }
 
 	@Override
-	public CombatStats save() {
+	public CombatStats getSaveService() {
 		int baseAttackBonus = 0;
 		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<>();
 		for (Component comp : combatOptions.getComponents()) {

@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.aspects.enums.Save;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 
 /**
  * Generate GUI for Animal Companion
@@ -292,14 +292,8 @@ public class AnimalGui implements GenerateGui
 	}
 
 	@Override
-	public Stats save() {
+	public SaveService getSaveService() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
 	}
 }

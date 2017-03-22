@@ -7,12 +7,11 @@ import java.io.IOException;
 import java.util.List;
 
 import org.moss.charactersheet.actions.api.CustomFileFilter;
-import org.moss.charactersheet.actions.api.SaveAction;
 import org.moss.charactersheet.actions.exceptions.SaveActionException;
 import org.moss.charactersheet.gui.CharInfoGui;
 import org.moss.charactersheet.gui.GenerateGui;
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,12 +43,12 @@ public class SaveCharacter {
 			writer = new BufferedWriter(new FileWriter(saveLocation));
 			for (GenerateGui gui : generators) {
 				if (gui instanceof CharInfoGui) {
-					this.save(writer, gui.save());
+					this.save(writer, gui.getSaveService());
 				}
 			}
 		} catch (IOException e) {
-			log.error("Unable to save. Cause: " + e.getMessage());
-			throw new SaveActionException("There was a problem when attempting to save the character to file");
+			log.error("Unable to getSaveService. Cause: " + e.getMessage());
+			throw new SaveActionException("There was a problem when attempting to getSaveService the character to file");
 		} finally {
 			if (writer != null) {
 				try {
@@ -57,14 +56,15 @@ public class SaveCharacter {
 				} catch (IOException x) {
 					log.error("Unable to close writer. Cause: " + x.getMessage());
 					throw new SaveActionException("An issue occurred when trying to finalise the file. The " +
-							"character may not have been save correctly.");
+							"character may not have been getSaveService correctly.");
 				}
 			}
 		}
 	}
 
-	private void save(BufferedWriter writer, Stats character) throws IOException {
+	private void save(BufferedWriter writer, SaveService service) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Stats character = service.save();
 		String info = gson.toJson(character, character.getClass());
 		writer.append(info);
 	}

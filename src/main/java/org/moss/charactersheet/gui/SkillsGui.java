@@ -281,7 +281,7 @@ public class SkillsGui implements ActionListener, GenerateGui {
     }
 
 	@Override
-	public Stats save() {
+	public Stats getSaveService() {
 		return null;
 		// TODO Auto-generated method stub
 		

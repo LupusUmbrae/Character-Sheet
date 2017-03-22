@@ -69,7 +69,7 @@ public class SpeedComponents implements GenerateGui<SpeedAndInitiative> {
     }
 
 	@Override
-	public SpeedAndInitiative save() {
+	public SpeedAndInitiative getSaveService() {
 		JTextField speedField = ELEMENTS.get("Speed");
 		int speed = Integer.parseInt(speedField.getText());
 		

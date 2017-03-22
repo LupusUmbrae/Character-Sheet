@@ -1,17 +1,31 @@
 package org.moss.charactersheet.gui;
 
+import static org.moss.charactersheet.services.ArmourService.ARMOUR_BONUS;
+import static org.moss.charactersheet.services.ArmourService.BASE;
+import static org.moss.charactersheet.services.ArmourService.DEFLECT_MOD;
+import static org.moss.charactersheet.services.ArmourService.DEX_MOD;
+import static org.moss.charactersheet.services.ArmourService.FLAT_AC;
+import static org.moss.charactersheet.services.ArmourService.MISC_MOD;
+import static org.moss.charactersheet.services.ArmourService.NATURAL_ARMOUR;
+import static org.moss.charactersheet.services.ArmourService.SHIELD_BONUS;
+import static org.moss.charactersheet.services.ArmourService.SIZE_MOD;
+import static org.moss.charactersheet.services.ArmourService.TOTAL;
+import static org.moss.charactersheet.services.ArmourService.TOUCH_AC;
+
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.inject.Inject;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.ArmourClass;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.impl.ArmourClassStats;
+import org.moss.charactersheet.services.ArmourService;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -19,20 +33,22 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class AcGui implements GenerateGui
-{
+public class AcGui implements GenerateGui<ArmourClassStats>  {
+    private JPanel armourClass;
+    private final ArmourService armourService;
+
     /**
      * Creates new generator
      */
-    public AcGui()
-    {
+    @Inject
+    public AcGui(ArmourService armourService) {
+        this.armourService = armourService;
+        armourClass = new JPanel(new GridBagLayout());
     }
 
     @Override
     public JPanel generate()
     {
-        JPanel armourClass = new JPanel(new GridBagLayout());
-
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.insets = new Insets(2, 0, 0, 0);
 
@@ -48,6 +64,7 @@ public class AcGui implements GenerateGui
 
         JTextField total = new JTextField(2);
         total.setEditable(false);
+        total.setName(TOTAL);
         total.setText("0");
         constraint.gridx = 1;
         constraint.gridy = 0;
@@ -69,6 +86,7 @@ public class AcGui implements GenerateGui
 
         JTextField base = new JTextField(2);
         base.setText("10");
+        base.setName(BASE);
         base.setEditable(false);
         constraint.gridx = 3;
         constraint.gridy = 0;
@@ -83,6 +101,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1;
 
         JFormattedTextField textArmour = new JFormattedTextField();
+        textArmour.setName(ARMOUR_BONUS);
         constraint.gridx = 5;
         constraint.gridy = 0;
         armourClass.add(textArmour, constraint);
@@ -102,6 +121,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1; // reset
 
         JFormattedTextField textShield = new JFormattedTextField();
+        textShield.setName(SHIELD_BONUS);
         constraint.gridx = 7;
         constraint.gridy = 0;
         armourClass.add(textShield, constraint);
@@ -122,6 +142,7 @@ public class AcGui implements GenerateGui
 
         JTextField textDex = new JTextField(2);
         textDex.setEditable(false);
+        textDex.setName(DEX_MOD);
         constraint.gridx = 9;
         constraint.gridy = 0;
         armourClass.add(textDex, constraint);
@@ -141,6 +162,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1; // reset
 
         JFormattedTextField textSize = new JFormattedTextField();
+        textSize.setName(SIZE_MOD);
         constraint.gridx = 11;
         constraint.gridy = 0;
         armourClass.add(textSize, constraint);
@@ -160,6 +182,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1; // reset
 
         JFormattedTextField textNatural = new JFormattedTextField();
+        textNatural.setName(NATURAL_ARMOUR);
         constraint.gridx = 13;
         constraint.gridy = 0;
         armourClass.add(textNatural, constraint);
@@ -179,6 +202,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1; // reset
 
         JFormattedTextField textDeflection = new JFormattedTextField();
+        textDeflection.setName(DEFLECT_MOD);
         constraint.gridx = 15;
         constraint.gridy = 0;
         armourClass.add(textDeflection, constraint);
@@ -198,6 +222,7 @@ public class AcGui implements GenerateGui
         constraint.gridheight = 1; // reset
 
         JFormattedTextField textMisc = new JFormattedTextField();
+        textMisc.setName(MISC_MOD);
         constraint.gridx = 17;
         constraint.gridy = 0;
         armourClass.add(textMisc, constraint);
@@ -217,6 +242,7 @@ public class AcGui implements GenerateGui
         constraint.gridwidth = 1;
 
         JTextField textTouch = new JTextField(2);
+        textTouch.setName(TOUCH_AC);
         textTouch.setEditable(false);
         constraint.gridx = 4;
         constraint.gridy = 2;
@@ -230,6 +256,7 @@ public class AcGui implements GenerateGui
         constraint.gridwidth = 1;
 
         JTextField textFlat = new JTextField(2);
+        textFlat.setName(FLAT_AC);
         textFlat.setEditable(false);
         constraint.gridx = 10;
         constraint.gridy = 2;
@@ -242,14 +269,7 @@ public class AcGui implements GenerateGui
     }
 
 	@Override
-	public Stats save() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public ArmourService getSaveService() {
+        return armourService.withPanel(armourClass);
 	}
 }

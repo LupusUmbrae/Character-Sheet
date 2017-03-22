@@ -95,7 +95,7 @@ public class FeatsGui implements GenerateGui {
 	}
 
 	@Override
-	public Stats save() {
+	public Stats getSaveService() {
 		return null;
 		// TODO Auto-generated method stub
 		
