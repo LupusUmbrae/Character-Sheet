@@ -2,8 +2,6 @@ package org.moss.charactersheet.impl.enums;
 
 /**
  * All possible Alignment enums to bridge between combo box and <code>CharacterInfo</code>
- * @author Jacq
- *
  */
 public enum Alignment {
 	

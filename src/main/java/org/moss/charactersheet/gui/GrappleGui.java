@@ -1,12 +1,15 @@
 package org.moss.charactersheet.gui;
 
-import static org.moss.charactersheet.util.StatsHelper.extractStatsFromPanel;
+import static org.moss.charactersheet.services.GrappleService.BAB;
+import static org.moss.charactersheet.services.GrappleService.MISC;
+import static org.moss.charactersheet.services.GrappleService.SIZE;
+import static org.moss.charactersheet.services.GrappleService.STR;
+import static org.moss.charactersheet.services.GrappleService.TOTAL;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.Map;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -15,29 +18,20 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.Grapple;
 import org.moss.charactersheet.impl.GrappleStats;
+import org.moss.charactersheet.services.GrappleService;
 import org.moss.charactersheet.util.LabelUtils;
-import org.moss.charactersheet.util.StatsHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for grapple
- * @author Jacq
- *
  */
+@Component
 public class GrappleGui implements GenerateGui<GrappleStats> {
-	private JPanel grapple;
-	private static final String BAB = "BAB";
-	private static final String TOTAL = "Total";
-	private static final String SIZE = "Size Mod";
-	private static final String STR = "Strength Mod";
-	private static final String MISC = "Misc Mod";
-	
-    /**
-     * Creates new generator
-     */
-    public GrappleGui()
-    {
-    	this.grapple = new JPanel(new GridBagLayout());
-    }
+	private final JPanel grapple = new JPanel(new GridBagLayout());
+
+	@Autowired
+    GrappleService grappleService;
 
     @Override
     public JPanel generate()
@@ -158,19 +152,7 @@ public class GrappleGui implements GenerateGui<GrappleStats> {
     }
 
 	@Override
-	public GrappleStats getSaveService() {
-		Map<String, Integer> stats = extractStatsFromPanel(grapple);
-		return new GrappleStats(
-		        stats.get(TOTAL),
-                stats.get(BAB),
-                stats.get(STR),
-                stats.get(SIZE),
-                stats.get(MISC));
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public GrappleService getSaveService() {
+        return grappleService.withPanel(grapple);
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,8 +13,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 import org.moss.charactersheet.util.LabelUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * Generates all things magical. Inludes:
@@ -24,9 +26,8 @@ import org.moss.charactersheet.util.LabelUtils;
  * <li> Saves </li>
  * <li> Modifiers </li>
  * </ul>
- * @author Jacq
- *
  */
+@Component
 public class MagicGui implements GenerateGui
 {
 
@@ -34,11 +35,8 @@ public class MagicGui implements GenerateGui
     private JPanel allMagic = new JPanel(new GridBagLayout());
     private GridBagConstraints consts = new GridBagConstraints();
 
-    /**
-     * Creates generator for all magic components
-     */
-    public MagicGui()
-    {
+    @PostConstruct
+    public void setupConstraintsAndFont() {
         consts.insets = new Insets(0, 2, 2, 0);
         small = new Font("Verdana", Font.BOLD, 8);
     }
@@ -283,16 +281,9 @@ public class MagicGui implements GenerateGui
     }
 
 	@Override
-	public Stats getSaveService() {
+	public SaveService getSaveService() {
 		return null;
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

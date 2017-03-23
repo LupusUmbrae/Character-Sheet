@@ -9,24 +9,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for Feats and Special Abilities
- * @author Jacq
- *
  */
+@Component
 public class FeatsGui implements GenerateGui {
 
 	private JPanel featsEtc = new JPanel(new GridBagLayout());
 	private GridBagConstraints consts = new GridBagConstraints();
-	
-	/**
-	 * Creates generator for Feats and SA
-	 * @param pageComponents
-	 */
-	public FeatsGui() {
-	}
 
 	/**
 	 * Generates Feats GUI components
@@ -95,14 +88,8 @@ public class FeatsGui implements GenerateGui {
 	}
 
 	@Override
-	public Stats getSaveService() {
+	public SaveService getSaveService() {
 		return null;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void load() {
 		// TODO Auto-generated method stub
 		
 	}

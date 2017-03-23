@@ -1,39 +1,33 @@
 package org.moss.charactersheet.gui;
 
-import static java.util.Collections.emptyMap;
+import static org.moss.charactersheet.services.CombatService.BASE_ATTACK;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.stream.IntStream;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.moss.charactersheet.impl.CombatStats;
-import org.moss.charactersheet.impl.FullCharacter;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.CombatService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Generator for combat options
- * @author Jacq
- *
  */
+@org.springframework.stereotype.Component
 public class CombatOptionsGui implements GenerateGui<CombatStats> {
 	private JPanel combatOptions;
-	private static final String BASE_ATTACK = "BaseAttack";
-	
-    /**
-     * Creates new generator
-     */
-    public CombatOptionsGui()
-    {
+
+	@Autowired
+    CombatService combatService;
+
+    @PostConstruct
+    public void setupPanel() {
     	this.combatOptions = new JPanel(new GridBagLayout());
     	this.combatOptions.setName("CombatOpts");
         this.combatOptions.setBorder(BorderFactory.createTitledBorder("Combat Options"));
@@ -163,38 +157,7 @@ public class CombatOptionsGui implements GenerateGui<CombatStats> {
     }
 
 	@Override
-	public CombatStats getSaveService() {
-		int baseAttackBonus = 0;
-		Map<Integer, Map<String, String>> combatSkills = new LinkedHashMap<>();
-		for (Component comp : combatOptions.getComponents()) {
-			String compName = comp.getName();
-			if (compName == null || compName.isEmpty()) {
-				continue;
-			}
-			String value = null;
-			if (comp instanceof JTextField) {
-				value = ((JTextField) comp).getText();
-			}
-			if (compName.equalsIgnoreCase(BASE_ATTACK)) {
-				baseAttackBonus = Integer.parseInt(value);
-			} else {
-				String weaponNum = compName.substring(compName.length()-1);
-				String weaponAttr = compName.substring(0, compName.length()-1);
-				int combatIteration = Integer.parseInt(weaponNum);
-				Map<String, String> currentEntry = combatSkills.get(combatIteration);
-				if (currentEntry == null) {
-				    currentEntry = new HashMap<>();
-                }
-                currentEntry.put(weaponAttr, value);
-                combatSkills.put(combatIteration, currentEntry);
-			}
-		}
-		return new CombatStats(baseAttackBonus, combatSkills);
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public CombatService getSaveService() {
+        return combatService.withPanel(combatOptions);
 	}
 }

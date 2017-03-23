@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,9 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import org.moss.charactersheet.aspects.InventoryLine;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 import org.moss.charactersheet.util.ListenerFactory;
 import org.moss.charactersheet.util.listeners.Accumulator;
+import org.springframework.stereotype.Component;
 
 /**
  * Generates the inventory screen. Includes:
@@ -31,11 +33,9 @@ import org.moss.charactersheet.util.listeners.Accumulator;
  * <li> Gear </li>
  * <li> Magical Items </li>
  * </ul>
- * @author Jacq
- *
  */
-public class InventoryGui implements ActionListener, PropertyChangeListener, GenerateGui
-{
+@Component
+public class InventoryGui implements ActionListener, PropertyChangeListener, GenerateGui {
 
     private static final String WEIGHT = "weight";
     private NumberFormatter formatter;
@@ -50,10 +50,8 @@ public class InventoryGui implements ActionListener, PropertyChangeListener, Gen
 
     private Map<JButton, InventoryLine> inventory = new HashMap<>();
 
-    /**
-     * Creates generator for inventory
-     */
-    public InventoryGui()
+    @PostConstruct
+    public void setupFormattersAndListeners()
     {
         DecimalFormat numberFormat = new DecimalFormat("#,##0.00");
         numberFormat.setMaximumFractionDigits(2);
@@ -405,14 +403,8 @@ public class InventoryGui implements ActionListener, PropertyChangeListener, Gen
     }
 
 	@Override
-	public Stats getSaveService() {
+	public SaveService getSaveService() {
 		return null;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void load() {
 		// TODO Auto-generated method stub
 		
 	}

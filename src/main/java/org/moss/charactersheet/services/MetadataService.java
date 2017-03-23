@@ -5,10 +5,12 @@ import java.util.Arrays;
 import javax.swing.JPanel;
 
 import org.moss.charactersheet.impl.CharacterInfo;
+import org.springframework.stereotype.Service;
 
 /**
- * Created by j.train on 22/03/2017.
+ * Service to provide save and load logic for {@link CharacterInfo}
  */
+@Service
 public class MetadataService implements SaveService<CharacterInfo> {
     private JPanel metadataPanel;
 

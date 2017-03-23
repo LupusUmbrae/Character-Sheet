@@ -22,27 +22,17 @@ import javax.swing.SwingConstants;
 import org.moss.charactersheet.aspects.SkillInfo;
 import org.moss.charactersheet.aspects.enums.Skill;
 import org.moss.charactersheet.dialog.AddSkillDialog;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SaveService;
 import org.moss.charactersheet.util.LabelUtils;
-
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for ability scores
- * 
- * @author Jacq
- * 
  */
+@Component
 public class SkillsGui implements ActionListener, GenerateGui {
-    private JPanel skills;
+    private final JPanel skills = new JPanel(new GridBagLayout());;
     private int index;
-
-    /**
-     * Creates new generator
-     */
-    public SkillsGui()
-    {
-    	this.skills = new JPanel(new GridBagLayout());
-    }
 
     /**
      * Generates the components required
@@ -281,14 +271,8 @@ public class SkillsGui implements ActionListener, GenerateGui {
     }
 
 	@Override
-	public Stats getSaveService() {
+	public SaveService getSaveService() {
 		return null;
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void load() {
 		// TODO Auto-generated method stub
 		
 	}

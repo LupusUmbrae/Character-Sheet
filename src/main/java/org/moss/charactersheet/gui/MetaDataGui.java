@@ -1,7 +1,5 @@
 package org.moss.charactersheet.gui;
 
-import static java.util.stream.Collectors.toList;
-
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.inject.Inject;
+import javax.annotation.PostConstruct;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,12 +18,16 @@ import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
 import org.moss.charactersheet.services.MetadataService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /** Generator for character meta data */
+@org.springframework.stereotype.Component
 public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
 	private static final int[] PER_LINE = new int[]{2,6,5};
-	private final MetadataService metadataService;
+
+	@Autowired
+	MetadataService metadataService;
 
 	private JPanel metaData;
 	private GridBagConstraints mdConsts;
@@ -46,15 +48,11 @@ public class MetaDataGui implements GenerateGui<CharacterInfo> {
 		ELEMENTS.put("Looks", new JTextField(12));
 	}
 
-	/**
-	 * Creates new generator
-	 */
-	@Inject
-	public MetaDataGui(MetadataService metadataService) {
+	@PostConstruct
+	public void setupPanel() {
 		this.metaData = new JPanel(new GridBagLayout());
 		this.metaData.setName("MetaData");
 		this.mdConsts = new GridBagConstraints();
-		this.metadataService = metadataService;
 	}
 
 	@Override
@@ -99,10 +97,5 @@ public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	@Override
 	public MetadataService getSaveService() {
 		return metadataService.withPanel(metaData);
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
 	}
 }

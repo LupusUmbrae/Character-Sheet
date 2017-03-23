@@ -7,14 +7,10 @@ import java.util.TreeMap;
 /**
  * Skill class. Currently contains a static map of all known skills and their corresponding
  * ability modifier.
- * @author Jacq
- *
  */
-public class Skill
-{
-    private static final Map<String, Skill> SKILLS_MAP = new TreeMap<String, Skill>();
-    static
-    {
+public class Skill {
+    private static final Map<String, Skill> SKILLS_MAP = new TreeMap<>();
+    static {
         SKILLS_MAP.put("Appraise", new Skill("Appraise", AbilityScore.INT, false));
         SKILLS_MAP.put("Autohypnosis", new Skill("Autohypnosis", AbilityScore.WIS, false));
         SKILLS_MAP.put("Balance", new Skill("Balance", AbilityScore.DEX, false));
@@ -79,8 +75,7 @@ public class Skill
     private AbilityScore ability;
 	private boolean customSkill;
 
-	public Skill(String name, AbilityScore ability, boolean isCustom)
-    {
+	public Skill(String name, AbilityScore ability, boolean isCustom) {
         this.skillName = name;
         this.ability = ability;
         this.customSkill = isCustom;
@@ -115,8 +110,7 @@ public class Skill
         return SKILLS_MAP.get(name);
     }
     
-    public static Skill addSkill(String name, AbilityScore ability, boolean isCustom)
-    {
+    public static Skill addSkill(String name, AbilityScore ability, boolean isCustom) {
     	SKILLS_MAP.put(name, new Skill(name, ability, isCustom));
     	return SKILLS_MAP.get(name);
     }

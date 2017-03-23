@@ -9,10 +9,12 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.impl.AbilityStats;
+import org.springframework.stereotype.Service;
 
 /**
- * Created by j.train on 22/03/2017.
+ * Service that provides save and load logic for character {@link AbilityStats}
  */
+@Service
 public class AbilitiesService implements SaveService<AbilityStats> {
     private JPanel abilityScoresPanel;
 

@@ -10,7 +10,7 @@ import org.moss.charactersheet.impl.ArmourClassStats;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by j.train on 22/03/2017.
+ * Provides save and load logic for character {@link ArmourClassStats}
  */
 @Service
 public class ArmourService implements SaveService<ArmourClassStats> {

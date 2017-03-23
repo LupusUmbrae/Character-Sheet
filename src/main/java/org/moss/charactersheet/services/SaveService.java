@@ -5,9 +5,6 @@ import javax.swing.JPanel;
 import org.moss.charactersheet.gui.CharInfoGui;
 import org.moss.charactersheet.interfaces.Stats;
 
-/**
- * Created by j.train on 22/03/2017.
- */
 public interface SaveService<T extends Stats> {
 
     SaveService<T> withPanel(JPanel panel);

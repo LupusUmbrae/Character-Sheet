@@ -1,5 +1,8 @@
 package org.moss.charactersheet.gui;
 
+import static org.moss.charactersheet.services.SpeedAndInitService.INIT;
+import static org.moss.charactersheet.services.SpeedAndInitService.SPEED;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,31 +16,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.impl.FullCharacter;
-import org.moss.charactersheet.impl.SpeedAndInitiative;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.impl.SpeedAndInitiativeStats;
+import org.moss.charactersheet.services.SpeedAndInitService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Generator for speed etc
- * @author Jacq
- *
  */
-public class SpeedComponents implements GenerateGui<SpeedAndInitiative> {
+@org.springframework.stereotype.Component
+public class SpeedComponentsGui implements GenerateGui<SpeedAndInitiativeStats> {
 	private static final Map<String, JTextField> ELEMENTS = new LinkedHashMap<>();
-	private JPanel miniPanel;
-	
+	private final JPanel miniPanel = new JPanel(new GridBagLayout());
+
+	@Autowired
+	SpeedAndInitService speedService;
+
 	static {
-		ELEMENTS.put("Speed", new JTextField(30));
-		ELEMENTS.put("Initiative", new JTextField(10));
+		ELEMENTS.put(SPEED, new JTextField(30));
+		ELEMENTS.put(INIT, new JTextField(10));
 	}
-	
-    /**
-     * Creates new generator
-     */
-    public SpeedComponents()
-    {
-    	this.miniPanel = new JPanel(new GridBagLayout());
-    }
 
     @Override
     public JPanel generate()
@@ -69,20 +66,7 @@ public class SpeedComponents implements GenerateGui<SpeedAndInitiative> {
     }
 
 	@Override
-	public SpeedAndInitiative getSaveService() {
-		JTextField speedField = ELEMENTS.get("Speed");
-		int speed = Integer.parseInt(speedField.getText());
-		
-		JTextField initField = ELEMENTS.get("Initiative");
-		int initiative = Integer.parseInt(initField.getText());
-		
-		return new SpeedAndInitiative(speed, initiative);
+	public SpeedAndInitService getSaveService() {
+		return speedService.withPanel(miniPanel);
 	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }
