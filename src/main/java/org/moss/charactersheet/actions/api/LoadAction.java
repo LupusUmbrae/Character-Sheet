@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 import org.moss.charactersheet.actions.LoadCharacter;
 
-/** API Class for Character Sheet. Loads a previous character getSaveService file */
+/** API Class for Character Sheet. Loads a previous character save file */
 public class LoadAction {
 
 	/**

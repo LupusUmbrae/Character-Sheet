@@ -2,8 +2,8 @@ package org.moss.charactersheet.gui;
 
 import javax.swing.JPanel;
 
-import org.moss.charactersheet.interfaces.Stats;
-import org.moss.charactersheet.services.SaveService;
+import org.moss.charactersheet.gui.character.info.CharInfoGui;
+import org.moss.charactersheet.model.Stats;
 
 public interface GenerateGui<T extends Stats>
 {
@@ -20,5 +20,5 @@ public interface GenerateGui<T extends Stats>
      * @return A sub set of the Character Stats for a given GUI, with the complete character formed by the
      * {@link CharInfoGui}
      */
-    public SaveService<T> getSaveService();
+    public T save();
 }

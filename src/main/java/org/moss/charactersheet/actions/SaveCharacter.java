@@ -6,12 +6,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import lombok.Value;
 import org.moss.charactersheet.actions.api.CustomFileFilter;
 import org.moss.charactersheet.actions.exceptions.SaveActionException;
-import org.moss.charactersheet.gui.CharInfoGui;
+import org.moss.charactersheet.gui.character.info.CharInfoGui;
 import org.moss.charactersheet.gui.GenerateGui;
-import org.moss.charactersheet.interfaces.Stats;
-import org.moss.charactersheet.services.SaveService;
+import org.moss.charactersheet.model.Stats;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,12 +43,12 @@ public class SaveCharacter {
 			writer = new BufferedWriter(new FileWriter(saveLocation));
 			for (GenerateGui gui : generators) {
 				if (gui instanceof CharInfoGui) {
-					this.save(writer, gui.getSaveService());
+					this.save(writer, new SaveFileStructure("basicInfo", gui.save()));
 				}
 			}
 		} catch (IOException e) {
-			log.error("Unable to getSaveService. Cause: " + e.getMessage());
-			throw new SaveActionException("There was a problem when attempting to getSaveService the character to file");
+			log.error("Unable to save. Cause: " + e.getMessage());
+			throw new SaveActionException("There was a problem when attempting to save the character to file");
 		} finally {
 			if (writer != null) {
 				try {
@@ -56,20 +56,25 @@ public class SaveCharacter {
 				} catch (IOException x) {
 					log.error("Unable to close writer. Cause: " + x.getMessage());
 					throw new SaveActionException("An issue occurred when trying to finalise the file. The " +
-							"character may not have been getSaveService correctly.");
+							"character may not have been save correctly.");
 				}
 			}
 		}
 	}
 
-	private void save(BufferedWriter writer, SaveService service) throws IOException {
+	private void save(BufferedWriter writer, SaveFileStructure character) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		Stats character = service.save();
 		String info = gson.toJson(character, character.getClass());
 		writer.append(info);
 	}
 	
 	public File getSaveLocation() {
 		return saveLocation;
+	}
+
+	@Value
+	class SaveFileStructure {
+		private final String panelTitle;
+		private final Stats panelInfo;
 	}
 }
