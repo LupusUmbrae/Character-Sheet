@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
-import org.moss.charactersheet.gui.InventoryGui;
+import org.moss.charactersheet.gui.character.inv.InventoryGui;
 
 public class InventoryLine {
 	public static final String WEIGHT_CHANGE = "value";

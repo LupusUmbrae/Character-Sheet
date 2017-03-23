@@ -10,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.impl.CharacterInfo;
+import org.moss.charactersheet.model.character.info.CharacterInfo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
