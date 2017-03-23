@@ -10,7 +10,7 @@ import lombok.Value;
  * <li>{@link CharacterInfo}</li>
  * <li>{@link AbilityStats}</li>
  * <li>{@link CombatStats}</li>
- * <li>{@link SpeedAndInitiative}</li>
+ * <li>{@link SpeedAndInitiativeStats}</li>
  * <li>{@link GrappleStats}</li>
  * <li>{@link SaveStats}</li>
  * <li>{@link ArmourClassStats}</li>
@@ -21,7 +21,7 @@ public class FullCharacter extends Stats {
 	private CharacterInfo info;
 	private AbilityStats abilityStats;
 	private CombatStats combatStats;
-	private SpeedAndInitiative speedStats;
+	private SpeedAndInitiativeStats speedStats;
 	private GrappleStats grappleStats;
 	private SaveStats saveStats;
 	private ArmourClassStats acStats;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true">
 
-    <property name="DEV_HOME" value="/Users/j.train/Projects/Character-Sheet/target"/>
+    <property name="DEV_HOME" value="${user.dir}/logs"/>
 
     <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${DEV_HOME}/debug.log</file>

@@ -2,8 +2,6 @@ package org.moss.charactersheet.impl.enums;
 
 /**
  * Gender enum to bridge between combo box and <code>CharacterInfo</code>
- * @author Jacq
- *
  */
 public enum Gender {
 	M("Male"),

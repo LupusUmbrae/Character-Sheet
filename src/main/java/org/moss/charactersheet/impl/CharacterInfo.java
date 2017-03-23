@@ -1,6 +1,7 @@
 package org.moss.charactersheet.impl;
 
 import java.awt.Component;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,8 +86,9 @@ public class CharacterInfo extends Stats {
 		} else if (comp instanceof JComboBox<?>) {
 			Object value = ((JComboBox<?>) comp).getSelectedItem();
 			enumValues.put(compName, value);
-		} else if (comp instanceof JComponent) {
-			checkComponents((JComponent) comp, stringValues, enumValues);
+		} else if (comp instanceof JPanel) {
+			Arrays.stream(((JPanel) comp).getComponents())
+				.forEach((childComp)-> checkComponents(childComp, stringValues, enumValues));
 		}
 	}
 }

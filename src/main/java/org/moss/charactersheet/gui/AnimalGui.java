@@ -17,23 +17,19 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.aspects.enums.Save;
 import org.moss.charactersheet.services.SaveService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Generate GUI for Animal Companion
- * @author Jacq
- *
  */
-public class AnimalGui implements GenerateGui
-{
+@org.springframework.stereotype.Component
+public class AnimalGui implements GenerateGui {
 
 	JPanel animalInfo = new JPanel(new GridBagLayout());
 	GridBagConstraints animCons = new GridBagConstraints();
-	
-	/**
-	 * Create new generator to build the GUI
-	 */
-	public AnimalGui() {
-	}
+
+	@Autowired
+	AcGui acGui;
 
 	@Override
 	public JPanel generate() {
@@ -120,9 +116,8 @@ public class AnimalGui implements GenerateGui
 	}
 
 	private void addAC() {
-		AcGui acGUI = new AcGui();
 		animCons.gridy++;
-		animalInfo.add(acGUI.generate(), animCons);		
+		animalInfo.add(acGui.generate(), animCons);
 	}
 
 	private void addAttackStats() {

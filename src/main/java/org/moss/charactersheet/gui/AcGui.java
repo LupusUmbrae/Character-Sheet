@@ -17,7 +17,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.inject.Inject;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -27,24 +26,18 @@ import org.moss.charactersheet.aspects.ArmourClass;
 import org.moss.charactersheet.impl.ArmourClassStats;
 import org.moss.charactersheet.services.ArmourService;
 import org.moss.charactersheet.util.LabelUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for armour class
- * @author Jacq
- *
  */
+@Component
 public class AcGui implements GenerateGui<ArmourClassStats>  {
-    private JPanel armourClass;
-    private final ArmourService armourService;
+    private final JPanel armourClass = new JPanel(new GridBagLayout());
 
-    /**
-     * Creates new generator
-     */
-    @Inject
-    public AcGui(ArmourService armourService) {
-        this.armourService = armourService;
-        armourClass = new JPanel(new GridBagLayout());
-    }
+    @Autowired
+    ArmourService armourService;
 
     @Override
     public JPanel generate()

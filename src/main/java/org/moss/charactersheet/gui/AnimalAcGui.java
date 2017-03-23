@@ -13,20 +13,13 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.ArmourClass;
 import org.moss.charactersheet.services.SaveService;
 import org.moss.charactersheet.util.LabelUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for Animal Companion armour class
- * @author Jacq
- *
  */
-public class AnimalAcGui implements GenerateGui
-{
-    /**
-     * Creates new generator for Animal Companion AC
-     */
-    public AnimalAcGui()
-    {
-    }
+@Component
+public class AnimalAcGui implements GenerateGui {
 
     @Override
     public JPanel generate()

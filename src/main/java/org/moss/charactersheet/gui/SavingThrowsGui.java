@@ -1,12 +1,12 @@
 package org.moss.charactersheet.gui;
 
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -16,26 +16,26 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.aspects.Saves;
 import org.moss.charactersheet.aspects.enums.Save;
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.SaveStats;
-import org.moss.charactersheet.interfaces.Stats;
+import org.moss.charactersheet.services.SavingThrowsService;
 import org.moss.charactersheet.util.LabelUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
- * Generator for saves
- * @author Jacq
- *
+ * Generator for saving throws
  */
-public class SavesGui implements GenerateGui<SaveStats> {
+@Component
+public class SavingThrowsGui implements GenerateGui<SaveStats> {
     private static final String CONDITIONAL = "Con Mods";
 	private Map<Save, Saves> savingThrowsMap = new HashMap<>();
     private JPanel savingThrows;
-    
-    /**
-     * Creates new generator
-     */
-    public SavesGui()
-    {
+
+    @Autowired
+    SavingThrowsService savingThrowsService;
+
+    @PostConstruct
+    public void setupPanel() {
     	this.savingThrows = new JPanel(new GridBagLayout());
     	this.savingThrows.setBorder(BorderFactory.createTitledBorder("Saving Throws"));
     }
@@ -191,35 +191,7 @@ public class SavesGui implements GenerateGui<SaveStats> {
     }
 
 	@Override
-	public SaveStats getSaveService() {
-		Map<String, Map<String, Integer>> skills = new HashMap<>();
-		for (Save save : Save.values()) {
-			String saveName = save.getSaveName();
-			skills.put(saveName, new HashMap<String, Integer>());
-		}
-		String conMods = "";
-		for (Component comp : savingThrows.getComponents()) {
-			if (comp instanceof JTextField) {
-				String compName = comp.getName();
-				String[] parts = compName.split(" ");
-				String saveName = parts[0];
-				String modifier = parts[1];
-				String value = ((JTextField) comp).getText();
-				int score = 0;
-				if (value != null && !value.isEmpty()) {
-					score = Integer.parseInt(value);
-				}
-				skills.get(saveName).put(modifier, score);
-			} else if (comp instanceof JTextArea) {
-				conMods = ((JTextArea) comp).getText();
-			}
-		}
-		return new SaveStats(conMods, skills);
-	}
-
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
+	public SavingThrowsService getSaveService() {
+        return savingThrowsService.withPanel(savingThrows);
 	}
 }

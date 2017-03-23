@@ -5,7 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.inject.Inject;
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -17,26 +17,24 @@ import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.impl.AbilityStats;
 import org.moss.charactersheet.services.AbilitiesService;
 import org.moss.charactersheet.util.LabelUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Generator for ability scores
- * @author Jacq
- *
  */
+@Component
 public class AbilityScoresGui implements GenerateGui<AbilityStats>
 {
-    private final AbilitiesService abilitiesService;
+    @Autowired
+    AbilitiesService abilitiesService;
     private JPanel abilityScores;
-    /**
-     * Creates new generator
-     */
-    @Inject
-    public AbilityScoresGui(AbilitiesService abilitiesService)
-    {
+
+    @PostConstruct
+    public void setupPanel() {
     	this.abilityScores = new JPanel(new GridBagLayout());
     	this.abilityScores.setName("AbilityScores");
     	this.abilityScores.setBorder(BorderFactory.createTitledBorder("Ability Scores"));
-    	this.abilitiesService = abilitiesService;
     }
     
     @Override

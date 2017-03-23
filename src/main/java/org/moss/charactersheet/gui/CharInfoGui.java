@@ -4,11 +4,14 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.annotation.PostConstruct;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import org.moss.charactersheet.impl.FullCharacter;
-import org.moss.charactersheet.services.SaveService;
+import org.moss.charactersheet.services.CharacterInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Generates all components for the overall character information
@@ -22,22 +25,33 @@ import org.moss.charactersheet.services.SaveService;
  * <li> Saves </li>
  * <li> AC </li>
  * </ul>
- * @author Jacq
- *
  */
+@Component
 public class CharInfoGui implements GenerateGui<FullCharacter> {
 
 	private JPanel charInfo = new JPanel(new GridBagLayout());
 	private GridBagConstraints ciConstraints = new GridBagConstraints();
-	private MetaDataGui metaGui = new MetaDataGui();
-	private AbilityScoresGui abilitiesGui = new AbilityScoresGui();
-	private CombatOptionsGui combatGui = new CombatOptionsGui();
-	private SpeedComponents speedGui = new SpeedComponents();
-	private GrappleGui grapGui = new GrappleGui();
-	private SavesGui saveGui = new SavesGui();
-	private AcGui acGui = new AcGui();
 
-	public CharInfoGui() {
+	@Autowired
+	MetaDataGui metaGui;
+	@Autowired
+	AbilityScoresGui abilitiesGui;
+	@Autowired
+	AcGui acGui;
+	@Autowired
+	SavingThrowsGui savingThrowsGui;
+	@Autowired
+	GrappleGui grappleGui;
+	@Autowired
+	CombatOptionsGui combatGui;
+	@Autowired
+	SpeedComponentsGui speedGui;
+
+	@Autowired
+	CharacterInfoService characterInfoService;
+
+	@PostConstruct
+	public void setupConstraints() {
 		this.ciConstraints.insets = new Insets(2, 0, 0, 0);
 	}
 
@@ -82,12 +96,12 @@ public class CharInfoGui implements GenerateGui<FullCharacter> {
 	private void addGrapple() {
 		ciConstraints.gridx = 0;
 		ciConstraints.gridy = 3;
-		charInfo.add(grapGui.generate(), ciConstraints);
+		charInfo.add(grappleGui.generate(), ciConstraints);
 	}
 
 	private void addSaves() {
 		ciConstraints.gridy = 4;
-		charInfo.add(saveGui.generate(), ciConstraints);
+		charInfo.add(savingThrowsGui.generate(), ciConstraints);
 	}
 
 	private void addAC() {
@@ -96,7 +110,7 @@ public class CharInfoGui implements GenerateGui<FullCharacter> {
 	}
 
 	@Override
-	public SaveService getSaveService() {
-		return null;
+	public CharacterInfoService getSaveService() {
+		return characterInfoService;
 	}
 }
