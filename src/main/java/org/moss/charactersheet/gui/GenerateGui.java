@@ -2,9 +2,9 @@ package org.moss.charactersheet.gui;
 
 import javax.swing.JPanel;
 
-import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 
-public interface GenerateGui
+public interface GenerateGui<T extends Stats>
 {
 	/**
      * Generates the components required and adds them to the list of components to add to the
@@ -16,13 +16,10 @@ public interface GenerateGui
     
     /**
      * Saves information for later re-population of fields 
-     * @return <code>Character</code>
-     * @throws IllegalArgumentException
-     * @throws IllegalAccessException
-     * @throws NoSuchFieldException
-     * @throws SecurityException
+     * @return A sub set of the Character Stats for a given GUI, with the complete character formed by the
+     * {@link CharInfoGui}
      */
-    public FullCharacter save() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException;
+    public T save();
     
     /** Loads information from a save file and populates GUI */
     public void load();

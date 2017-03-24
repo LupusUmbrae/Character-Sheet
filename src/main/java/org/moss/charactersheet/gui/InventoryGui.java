@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.text.NumberFormatter;
 
 import org.moss.charactersheet.aspects.InventoryLine;
-import org.moss.charactersheet.impl.FullCharacter;
+import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.ListenerFactory;
 import org.moss.charactersheet.util.listeners.Accumulator;
 
@@ -59,18 +58,6 @@ public class InventoryGui implements ActionListener, PropertyChangeListener, Gen
         DecimalFormat numberFormat = new DecimalFormat("#,##0.00");
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMaximumIntegerDigits(3);
-        Number test;
-        try
-        {
-            test = numberFormat.parse("1.20");
-            System.out.println(test.getClass().getCanonicalName());
-            System.out.println(test);
-        }
-        catch (ParseException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
         this.formatter = new NumberFormatter(numberFormat);
         this.formatter.setAllowsInvalid(false);
@@ -418,7 +405,7 @@ public class InventoryGui implements ActionListener, PropertyChangeListener, Gen
     }
 
 	@Override
-	public FullCharacter save() {
+	public Stats save() {
 		return null;
 		// TODO Auto-generated method stub
 		

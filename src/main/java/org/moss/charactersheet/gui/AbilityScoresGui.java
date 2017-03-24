@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.AbilityScores;
 import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.impl.AbilityStats;
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -25,7 +24,7 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class AbilityScoresGui implements GenerateGui
+public class AbilityScoresGui implements GenerateGui<AbilityStats>
 {
 	private JPanel abilityScores;
     /**
@@ -177,10 +176,10 @@ public class AbilityScoresGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public AbilityStats save() {
 		Map<String, Map<String, Integer>> skills = new HashMap<>();
 		for (AbilityScore ability : AbilityScore.values()) {
-			skills.put(ability.name(), new HashMap<String, Integer>());
+			skills.put(ability.name(), new HashMap<>());
 		}
 		for (Component comp : abilityScores.getComponents()) {
 			String compName = comp.getName();
@@ -198,8 +197,7 @@ public class AbilityScoresGui implements GenerateGui
 				skills.get(associatedAbility).put(modifier, score);
 			}
 		}
-		AbilityStats stats = new AbilityStats(skills);
-		return new FullCharacter(null, stats, null, null, null, null, null);
+		return new AbilityStats(skills);
 	}
 
 	@Override

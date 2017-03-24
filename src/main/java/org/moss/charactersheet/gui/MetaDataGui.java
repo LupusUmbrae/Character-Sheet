@@ -1,9 +1,10 @@
 package org.moss.charactersheet.gui;
 
+import static java.util.stream.Collectors.toList;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,19 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.CharacterInfo;
 import org.moss.charactersheet.impl.enums.Alignment;
 import org.moss.charactersheet.impl.enums.Gender;
 import org.moss.charactersheet.impl.enums.Size;
 
-/**
- * Generator for character meta data
- * @author Jacq
- *
- */
-public class MetaDataGui implements GenerateGui
-{
+/** Generator for character meta data */
+public class MetaDataGui implements GenerateGui<CharacterInfo> {
 	private static final Map<String, Component> ELEMENTS = new LinkedHashMap<>();
 	private static final int[] PER_LINE = new int[]{2,6,5};
 
@@ -39,9 +34,9 @@ public class MetaDataGui implements GenerateGui
 		ELEMENTS.put("Level", new JTextField(4));
 		ELEMENTS.put("ECL", new JTextField(4));
 		ELEMENTS.put("Race", new JTextField(8));
-		ELEMENTS.put("Size", new JComboBox<Size>(Size.values()));
-		ELEMENTS.put("Gender", new JComboBox<Gender>(Gender.values()));
-		ELEMENTS.put("Alignment", new JComboBox<Alignment>(Alignment.values()));
+		ELEMENTS.put("Size", new JComboBox<>(Size.values()));
+		ELEMENTS.put("Gender", new JComboBox<>(Gender.values()));
+		ELEMENTS.put("Alignment", new JComboBox<>(Alignment.values()));
 		ELEMENTS.put("Religion", new JTextField(12));
 		ELEMENTS.put("Height", new JTextField(5));
 		ELEMENTS.put("Weight", new JTextField(5));
@@ -51,16 +46,14 @@ public class MetaDataGui implements GenerateGui
 	/**
 	 * Creates new generator
 	 */
-	public MetaDataGui()
-	{
+	public MetaDataGui() {
 		this.metaData = new JPanel(new GridBagLayout());
 		this.metaData.setName("MetaData");
 		this.mdConsts = new GridBagConstraints();
 	}
 
 	@Override
-	public JPanel generate()
-	{
+	public JPanel generate() {
 		GridBagConstraints consts = new GridBagConstraints();
 		consts.gridx = 0;
 		consts.gridy = 0;
@@ -99,35 +92,12 @@ public class MetaDataGui implements GenerateGui
 	}
 
 	@Override
-	public FullCharacter save() throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-		CharacterInfo metaInfo = new CharacterInfo();
-		for (Component comp : ELEMENTS.values()) {
-			String compName = comp.getName().replace(" ", "");
-			for (Field field : CharacterInfo.class.getDeclaredFields()) {
-				String fieldName = field.getName();
-				field.setAccessible(true);
-				Object val = null;
-				if (fieldName.equalsIgnoreCase(compName) ||
-						fieldName.equalsIgnoreCase(compName.replace("s", "z"))) {
-					if (comp instanceof JTextField) {
-						val = ((JTextField) comp).getText();
-						if (field.getType().isPrimitive()) {
-							val = Integer.parseInt(val.toString());
-						}
-					} else if (comp instanceof JComboBox<?>) {
-						val = ((JComboBox<?>) comp).getSelectedItem();
-					}
-					field.set(metaInfo, val);
-					break;
-				}
-			}
-		}
-		return new FullCharacter(metaInfo, null, null, null, null, null, null);
+	public CharacterInfo save() {
+		return CharacterInfo.createCharacter(ELEMENTS.values().stream().collect(toList()));
 	}
 
 	@Override
 	public void load() {
 		// TODO Auto-generated method stub
-
 	}
 }

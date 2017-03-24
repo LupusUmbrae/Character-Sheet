@@ -18,6 +18,7 @@ import org.moss.charactersheet.aspects.Saves;
 import org.moss.charactersheet.aspects.enums.Save;
 import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.SaveStats;
+import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -25,8 +26,7 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class SavesGui implements GenerateGui
-{
+public class SavesGui implements GenerateGui<SaveStats> {
     private static final String CONDITIONAL = "Con Mods";
 	private Map<Save, Saves> savingThrowsMap = new HashMap<>();
     private JPanel savingThrows;
@@ -191,7 +191,7 @@ public class SavesGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public SaveStats save() {
 		Map<String, Map<String, Integer>> skills = new HashMap<>();
 		for (Save save : Save.values()) {
 			String saveName = save.getSaveName();
@@ -214,8 +214,7 @@ public class SavesGui implements GenerateGui
 				conMods = ((JTextArea) comp).getText();
 			}
 		}
-		SaveStats saveStats = new SaveStats(conMods, skills);
-		return new FullCharacter(null, null, null, null, null, saveStats, null);
+		return new SaveStats(conMods, skills);
 	}
 
 	@Override

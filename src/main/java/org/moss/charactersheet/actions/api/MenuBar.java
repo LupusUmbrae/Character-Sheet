@@ -14,28 +14,16 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.gui.GenerateGui;
 
-/**
- * Constructs menu bar
- * @author Jacq
- *
- */
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class MenuBar {
 
 	private final List<GenerateGui> generators;
 	private final List<Component> components;
 	private Container container;
-	
-	public MenuBar(List<GenerateGui> generators, Container container, List<Component> components) {
-		this.components = components;
-		this.generators = generators;
-		this.container = container;
-	}
 
-	/**
-	 * Constructs menu bar
-	 * Contains New [character, animal], Save, Load
-	 * @return
-	 */
+	/** Constructs menu bar. Contains New [character, animal], Save, Load */
 	public JMenuBar createMenuBar() {
 		JMenu menu = new JMenu("File");
 		menu.setMnemonic(KeyEvent.VK_F);
@@ -68,20 +56,9 @@ public class MenuBar {
 		newMenu.add(aniItem);
 
 		JMenuItem saveItem = new JMenuItem("Save", KeyEvent.VK_S);
-		saveItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SaveAction.save(container, generators);
-			}
-		});
+		saveItem.addActionListener(e -> SaveAction.save(container, generators));
 		JMenuItem loadItem = new JMenuItem("Load", KeyEvent.VK_L);
-		loadItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LoadAction.load(container, components);
-			}
-		});
+		loadItem.addActionListener(e -> LoadAction.load(container, components));
 
 		menu.add(newMenu);
 		menu.add(loadItem);

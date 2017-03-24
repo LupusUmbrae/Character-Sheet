@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 import org.moss.charactersheet.aspects.Grapple;
 import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.GrappleStats;
+import org.moss.charactersheet.interfaces.Stats;
 import org.moss.charactersheet.util.LabelUtils;
 
 /**
@@ -23,8 +24,7 @@ import org.moss.charactersheet.util.LabelUtils;
  * @author Jacq
  *
  */
-public class GrappleGui implements GenerateGui
-{
+public class GrappleGui implements GenerateGui<GrappleStats> {
 	private JPanel grapple;
 	private static final String BAB = "BAB";
 	private static final String TOTAL = "Total";
@@ -159,7 +159,7 @@ public class GrappleGui implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public GrappleStats save() {
 		Map<String, Integer> skills = new HashMap<>();
 		for (Component comp : grapple.getComponents()) {
 			if (comp instanceof JTextField) {
@@ -172,12 +172,12 @@ public class GrappleGui implements GenerateGui
 				skills.put(compName, score);
 			}
 		}
-		GrappleStats stats = new GrappleStats(skills.get(TOTAL),
-				                              skills.get(BAB),
-				                              skills.get(STR),
-				                              skills.get(SIZE),
-				                              skills.get(MISC));
-		return new FullCharacter(null, null, null, null, stats, null, null);
+		return new GrappleStats(
+		        skills.get(TOTAL),
+                skills.get(BAB),
+                skills.get(STR),
+                skills.get(SIZE),
+                skills.get(MISC));
 	}
 
 	@Override

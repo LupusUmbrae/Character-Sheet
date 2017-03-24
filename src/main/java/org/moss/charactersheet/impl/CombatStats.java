@@ -3,29 +3,16 @@ package org.moss.charactersheet.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Stores character combat information
- * @author Jacq
- *
- */
-public class CombatStats {
+import org.moss.charactersheet.interfaces.Stats;
 
-	private int baseAttack;
-	private Map<Integer, Map<String, String>> stats = new HashMap<>();
-	
-	public CombatStats(int baseAttack, Map<Integer, Map<String, String>> combatSkills) {
-		this.baseAttack = baseAttack;
-		this.stats = combatSkills;
-	}
+import lombok.Value;
 
-	public int getBaseAttack() {
-		return baseAttack;
-	}
-	
-	public Map<Integer, Map<String, String>> getAllStats() {
-		return stats;
-	}
-	
+/** Stores character combat information */
+@Value
+public class CombatStats extends Stats {
+	private final int baseAttack;
+	private final Map<Integer, Map<String, String>> stats;
+
 	public Map<String, String> getStatsForWeaponNum(int weaponNum) {
 		return stats.get(weaponNum);
 	}

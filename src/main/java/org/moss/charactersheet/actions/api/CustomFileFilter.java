@@ -6,16 +6,12 @@ import javax.swing.filechooser.FileFilter;
 
 /**
  * File filter to ensure conformity to *.sav format
- * @author Jacq
- *
  */
 public class CustomFileFilter extends FileFilter {
 
 	private static final String EXT = ".sav";
 
-	/**
-	 * Creates new CustomFilter that will conform to file extension *.sav
-	 */
+	/** Creates new CustomFilter that will conform to file extension *.sav*/
 	public CustomFileFilter() {}
 	
 	@Override

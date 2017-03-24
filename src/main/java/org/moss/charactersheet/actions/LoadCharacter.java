@@ -15,11 +15,7 @@ import org.moss.charactersheet.impl.CharacterInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-/**
- * Loads character information from JSON .sav file
- * @author Jacq
- *
- */
+/** Loads character information from JSON .sav file */
 public class LoadCharacter {
 
 	private static CharacterInfo CHAR_INFO;
@@ -61,7 +57,7 @@ public class LoadCharacter {
 		} else if (compName.equals("Size")) {
 			comp.setSelectedItem(CHAR_INFO.getSize());
 		} else if (compName.equals("Alignment")) {
-			comp.setSelectedItem(CHAR_INFO.getAlign());
+			comp.setSelectedItem(CHAR_INFO.getAlignment());
 		}
 	}
 
@@ -71,9 +67,9 @@ public class LoadCharacter {
 			return;
 		}
 		if (compName.equals("Character Name")) {
-			comp.setText(CHAR_INFO.getName());
+			comp.setText(CHAR_INFO.getCharacterName());
 		} else if (compName.equals("Player Name")) {
-			comp.setText(CHAR_INFO.getPlayer());
+			comp.setText(CHAR_INFO.getPlayerName());
 		} else if (compName.equals("Class")) {
 			comp.setText(CHAR_INFO.getClazz());
 		} else if (compName.equals("Race")) {

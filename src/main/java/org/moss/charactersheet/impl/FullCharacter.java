@@ -1,17 +1,23 @@
 package org.moss.charactersheet.impl;
 
+import org.moss.charactersheet.interfaces.Stats;
+
+import lombok.Builder;
+import lombok.Value;
+
 /**
  * Holds all character information:
- * <li><code>CharacterInfo</code></li>
- * <li><code>AbilityStats</code></li>
- * <li><code>CombatStats</code></li>
- * <li><code>SaveStats</code></li>
- * 
- * @author Jacq
- *
+ * <li>{@link CharacterInfo}</li>
+ * <li>{@link AbilityStats}</li>
+ * <li>{@link CombatStats}</li>
+ * <li>{@link SpeedAndInitiative}</li>
+ * <li>{@link GrappleStats}</li>
+ * <li>{@link SaveStats}</li>
+ * <li>{@link ArmourClassStats}</li>
  */
-public class FullCharacter {
-
+@Builder
+@Value
+public class FullCharacter extends Stats {
 	private CharacterInfo info;
 	private AbilityStats abilityStats;
 	private CombatStats combatStats;
@@ -19,47 +25,4 @@ public class FullCharacter {
 	private GrappleStats grappleStats;
 	private SaveStats saveStats;
 	private ArmourClassStats acStats;
-	
-	public FullCharacter(CharacterInfo info, AbilityStats abilityStats, CombatStats combatStats,
-			SpeedAndInitiative speedStats, GrappleStats grappleStats, SaveStats saveStats,
-			ArmourClassStats acStats) {
-		this.info = info;
-		this.abilityStats = abilityStats;
-		this.combatStats = combatStats;
-		this.speedStats = speedStats;
-		this.grappleStats = grappleStats;
-		this.saveStats = saveStats;
-		this.acStats = acStats;
-	}
-	
-	public FullCharacter() {
-	}
-
-	public CharacterInfo getCharInfo() {
-		return info;
-	}
-	
-	public AbilityStats getAbilityStats() {
-		return abilityStats;
-	}
-	
-	public CombatStats getCombatStat() {
-		return combatStats;
-	}
-	
-	public SpeedAndInitiative getSpeedAndInitStats() {
-		return speedStats;
-	}
-	
-	public GrappleStats getGrappleStats() {
-		return grappleStats;
-	}
-	
-	public SaveStats getSaveStats() {
-		return saveStats;
-	}
-	
-	public ArmourClassStats getAcStats() {
-		return acStats;
-	}
 }

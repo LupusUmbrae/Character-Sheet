@@ -3,12 +3,12 @@ package org.moss.charactersheet.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.moss.charactersheet.interfaces.Stats;
+
 /**
  * Stores all ability scores for character
- * @author Jacq
- *
  */
-public class AbilityStats {
+public class AbilityStats extends Stats {
 
 	private Map<String, Map<String, Integer>> stats = new HashMap<>();
 

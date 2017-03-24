@@ -4,8 +4,8 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -15,14 +15,14 @@ import javax.swing.JTextField;
 
 import org.moss.charactersheet.impl.FullCharacter;
 import org.moss.charactersheet.impl.SpeedAndInitiative;
+import org.moss.charactersheet.interfaces.Stats;
 
 /**
  * Generator for speed etc
  * @author Jacq
  *
  */
-public class SpeedComponents implements GenerateGui
-{
+public class SpeedComponents implements GenerateGui<SpeedAndInitiative> {
 	private static final Map<String, JTextField> ELEMENTS = new LinkedHashMap<>();
 	private JPanel miniPanel;
 	
@@ -69,15 +69,14 @@ public class SpeedComponents implements GenerateGui
     }
 
 	@Override
-	public FullCharacter save() {
+	public SpeedAndInitiative save() {
 		JTextField speedField = ELEMENTS.get("Speed");
 		int speed = Integer.parseInt(speedField.getText());
 		
 		JTextField initField = ELEMENTS.get("Initiative");
 		int initiative = Integer.parseInt(initField.getText());
 		
-		SpeedAndInitiative spIni = new SpeedAndInitiative(speed, initiative);
-		return new FullCharacter(null, null, null, spIni, null, null, null);
+		return new SpeedAndInitiative(speed, initiative);
 	}
 
 	@Override

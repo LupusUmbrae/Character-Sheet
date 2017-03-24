@@ -1,6 +1,5 @@
 package org.moss.charactersheet.aspects;
 
-import java.beans.PropertyChangeEvent;
 import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
@@ -12,42 +11,48 @@ import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.util.ListenerFactory;
 
 
-public class ArmourClass implements Aspects
-{
-
-    private JTextField total;
+public class ArmourClass extends AbstractAspect {
     private JFormattedTextField armour;
     private JFormattedTextField shield;
     private JTextField dex;
     private JFormattedTextField size;
     private JFormattedTextField natural;
     private JFormattedTextField deflection;
-    private JFormattedTextField misc;
 
     private JTextField flat;
     private JTextField touch;
 
     private int armourClass;
-
     private int touchScore;
     private int flatScore;
 
-
     public ArmourClass(JTextField total, JFormattedTextField armour, JFormattedTextField shield, JTextField dex,
                        JFormattedTextField size, JFormattedTextField natural, JFormattedTextField deflection,
-                       JFormattedTextField misc, JTextField flat, JTextField touch)
-    {
-        this.total = total;
+                       JFormattedTextField misc, JTextField flat, JTextField touch) {
+        super(total, misc);
         this.armour = armour;
         this.shield = shield;
         this.dex = dex;
         this.size = size;
         this.natural = natural;
         this.deflection = deflection;
-        this.misc = misc;
         this.flat = flat;
         this.touch = touch;
 
+        setupFormatters();
+        calculate();
+    }
+
+    @Override
+    public void update(Object key, Object value) {
+        if (key.equals(AbilityScore.DEX)) {
+            this.dex.setText(value.toString());
+        }
+        calculate();
+    }
+
+    @Override
+    protected void setupFormatters() {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(0);
         numberFormat.setMaximumIntegerDigits(2);
@@ -83,64 +88,40 @@ public class ArmourClass implements Aspects
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        calculate();
-
-    }
-
-    @Override
-    public void update(Object key, Object value)
-    {
-        if (key.equals(AbilityScore.DEX))
-        {
-            this.dex.setText(value.toString());
-        }
-        calculate();
-    }
-
-    private void calculate()
-    {
+    protected void calculate() {
         armourClass = 10;
         flatScore = 0;
         touchScore = 0;
 
-        if (!armour.getText().isEmpty())
-        {
+        if (!armour.getText().isEmpty()) {
             armourClass += Integer.parseInt(armour.getText());
             touchScore -= Integer.parseInt(armour.getText());
         }
 
-        if (!shield.getText().isEmpty())
-        {
+        if (!shield.getText().isEmpty()) {
             armourClass += Integer.parseInt(shield.getText());
             touchScore -= Integer.parseInt(shield.getText());
         }
 
-        if (!dex.getText().isEmpty())
-        {
+        if (!dex.getText().isEmpty()) {
             armourClass += Integer.parseInt(dex.getText());
             flatScore -= Integer.parseInt(dex.getText());
         }
 
-        if (!size.getText().isEmpty())
-        {
+        if (!size.getText().isEmpty()) {
             armourClass += Integer.parseInt(size.getText());
         }
 
-        if (!natural.getText().isEmpty())
-        {
+        if (!natural.getText().isEmpty()) {
             armourClass += Integer.parseInt(natural.getText());
             touchScore -= Integer.parseInt(natural.getText());
         }
 
-        if (!deflection.getText().isEmpty())
-        {
+        if (!deflection.getText().isEmpty()) {
             armourClass += Integer.parseInt(deflection.getText());
         }
 
-        if (!misc.getText().isEmpty())
-        {
+        if (!misc.getText().isEmpty()) {
             armourClass += Integer.parseInt(misc.getText());
         }
 

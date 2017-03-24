@@ -1,6 +1,5 @@
 package org.moss.charactersheet.aspects;
 
-import java.beans.PropertyChangeEvent;
 import java.text.NumberFormat;
 
 import javax.swing.JFormattedTextField;
@@ -12,32 +11,31 @@ import org.moss.charactersheet.aspects.enums.Save;
 import org.moss.charactersheet.util.ListenerFactory;
 
 
-public class Saves implements Aspects
-{
-    private JTextField total;
+public class Saves extends AbstractAspect {
     private JFormattedTextField base;
     private JTextField ability;
     private JFormattedTextField magic;
-    private JFormattedTextField misc;
     private JFormattedTextField temp;
 
     private Save save;
-
     private int saveScore;
 
 
     public Saves(Save save, JTextField total, JFormattedTextField base, JTextField ability, JFormattedTextField magic,
-                 JFormattedTextField misc, JFormattedTextField temp)
-    {
-
+                 JFormattedTextField misc, JFormattedTextField temp) {
+        super(total, misc);
         this.save = save;
-        this.total = total;
         this.base = base;
         this.ability = ability;
         this.magic = magic;
-        this.misc = misc;
         this.temp = temp;
 
+        setupFormatters();
+        calculate();
+    }
+
+    @Override
+    protected void setupFormatters() {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(0);
         numberFormat.setMaximumIntegerDigits(2);
@@ -65,51 +63,38 @@ public class Saves implements Aspects
     }
 
     @Override
-    public void update(Object key, Object value)
-    {
-        if (save.getAbility().equals(key))
-        {
-            this.ability.setText(value.toString());
-        }
-        calcSave();
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        calcSave();
-    }
-
-    private void calcSave()
+    protected void calculate()
     {
         saveScore = 0;
 
-        if (!base.getText().isEmpty())
-        {
+        if (!base.getText().isEmpty()) {
             saveScore += Integer.parseInt(base.getText());
         }
 
-        if (!ability.getText().isEmpty())
-        {
+        if (!ability.getText().isEmpty()) {
             saveScore += Integer.parseInt(ability.getText());
         }
 
-        if (!magic.getText().isEmpty())
-        {
+        if (!magic.getText().isEmpty()) {
             saveScore += Integer.parseInt(magic.getText());
         }
 
-        if (!misc.getText().isEmpty())
-        {
+        if (!misc.getText().isEmpty()) {
             saveScore += Integer.parseInt(misc.getText());
         }
 
-        if (!temp.getText().isEmpty())
-        {
+        if (!temp.getText().isEmpty()) {
             saveScore += Integer.parseInt(temp.getText());
         }
 
         total.setText(Integer.toString(saveScore));
     }
 
+    @Override
+    public void update(Object key, Object value) {
+        if (save.getAbility().equals(key)) {
+            this.ability.setText(value.toString());
+        }
+        calculate();
+    }
 }

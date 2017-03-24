@@ -1,6 +1,5 @@
 package org.moss.charactersheet.aspects;
 
-import java.beans.PropertyChangeEvent;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,45 +13,37 @@ import org.moss.charactersheet.aspects.enums.AbilityScore;
 import org.moss.charactersheet.util.ListenerFactory;
 
 
-public class AbilityScores implements Aspects
-{
+public class AbilityScores extends AbstractAspect {
     private static Map<AbilityScore, AbilityScores> ABILITY_SCORES = new HashMap<>();
 
-    private JTextField total;
     private JFormattedTextField base;
     private JFormattedTextField enhance;
-    private JFormattedTextField misc;
     private JFormattedTextField miscNeg;
     private JTextField mod;
 
     private AbilityScore ability;
-
     private int totalScore = 0;
-
     private int modScore = 0;
 
-
-    public int getTotalScore()
-    {
-        return totalScore;
-    }
-
-    public int getModScore()
-    {
-        return modScore;
-    }
-
     public AbilityScores(AbilityScore ability, JTextField total, JFormattedTextField base, JFormattedTextField enhance,
-                         JFormattedTextField misc, JFormattedTextField miscNeg, JTextField mod)
-    {
-        this.total = total;
+                         JFormattedTextField misc, JFormattedTextField miscNeg, JTextField mod) {
+        super(total, misc);
         this.base = base;
         this.enhance = enhance;
-        this.misc = misc;
         this.miscNeg = miscNeg;
         this.mod = mod;
         this.ability = ability;
+        setupFormatters();
+        calculate();
+    }
 
+    @Override
+    public void update(Object key, Object value) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    protected void setupFormatters() {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(0);
         numberFormat.setMaximumIntegerDigits(2);
@@ -77,54 +68,35 @@ public class AbilityScores implements Aspects
         miscNeg.addPropertyChangeListener("value", this);
 
         ListenerFactory.registerCaller(ability);
-        calulcate();
     }
 
-    public void createGui()
-    {
-
-    }
-
-    public void propertyChange(PropertyChangeEvent evt)
-    {
-        calulcate();
-    }
-
-    private void calulcate()
-    {
+    @Override
+    protected void calculate() {
         totalScore = 0;
-        if (!base.getText().isEmpty())
-        {
+        if (!base.getText().isEmpty()) {
             totalScore += Integer.parseInt(base.getText());
         }
 
-        if (!enhance.getText().isEmpty())
-        {
+        if (!enhance.getText().isEmpty()) {
             totalScore += Integer.parseInt(enhance.getText());
         }
 
-        if (!misc.getText().isEmpty())
-        {
+        if (!misc.getText().isEmpty()) {
             totalScore += Integer.parseInt(misc.getText());
         }
 
-        if (!miscNeg.getText().isEmpty())
-        {
+        if (!miscNeg.getText().isEmpty()) {
             totalScore -= Integer.parseInt(miscNeg.getText());
         }
 
         total.setText(Integer.toString(totalScore));
 
         modScore = 0;
-        if (totalScore > 0)
-        {
-            if (totalScore > 10)
-            {
+        if (totalScore > 0) {
+            if (totalScore > 10) {
                 modScore = (int) Math.floor((totalScore - 10) / 2.0);
             }
-            else if (totalScore < 10)
-            {
-
+            else if (totalScore < 10) {
                 modScore = (int) Math.floor((totalScore - 10) / 2.0);
             }
         }
@@ -133,15 +105,15 @@ public class AbilityScores implements Aspects
         ListenerFactory.callback(this.ability, modScore);
     }
 
-    @Override
-    public void update(Object key, Object value)
-    {
-        // TODO Auto-generated method stub
-
+    public static Map<AbilityScore, AbilityScores> getAbilityScores() {
+        return ABILITY_SCORES;
     }
 
-    public static Map<AbilityScore, AbilityScores> getAbilityScores()
-    {
-        return ABILITY_SCORES;
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public int getModScore() {
+        return modScore;
     }
 }
