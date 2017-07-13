@@ -17,16 +17,17 @@ import javax.swing.SpringLayout;
 
 import org.moss.charactersheet.actions.api.MenuBar;
 import org.moss.charactersheet.aspects.enums.Skill;
-import org.moss.charactersheet.gui.animal.AnimalGui;
-import org.moss.charactersheet.gui.character.info.CharInfoGui;
-import org.moss.charactersheet.gui.character.feats.FeatsGui;
+import org.moss.charactersheet.gui.AnimalGui;
+import org.moss.charactersheet.gui.CharInfoGui;
+import org.moss.charactersheet.gui.FeatsGui;
 import org.moss.charactersheet.gui.GenerateGui;
-import org.moss.charactersheet.gui.character.inv.InventoryGui;
-import org.moss.charactersheet.gui.character.magic.MagicGui;
-import org.moss.charactersheet.gui.character.skills.SkillsGui;
+import org.moss.charactersheet.gui.InventoryGui;
+import org.moss.charactersheet.gui.MagicGui;
+import org.moss.charactersheet.gui.SkillsGui;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-@org.springframework.stereotype.Component
+@Controller
 public class SheetFrame extends JFrame {
 
     @Autowired
@@ -42,17 +43,21 @@ public class SheetFrame extends JFrame {
     @Autowired
     SkillsGui skillsGen;
 
-    private List<Component> characterInfoComponents = new ArrayList<>();
+    private List<Component> page1Components = new ArrayList<>();
+    private List<Component> page2Components = new ArrayList<>();
+    private List<Component> page3Components = new ArrayList<>();
+    private List<Component> page4Components = new ArrayList<>();
+    private List<Component> page5Components = new ArrayList<>();
+    private List<Component> page6Components = new ArrayList<>();
 
     private SpringLayout layout = new SpringLayout();
 
-    // Tab containers in the order the pages will be displayed on the app
-    private Container basicCharacterInfoPage = new JPanel(layout);
-    private Container skillsPage = new JPanel(layout);
-    private Container featsPage = new JPanel(layout);
-    private Container inventoryPage = new JPanel(layout);
-    private Container magicPage = new JPanel(layout);
-    private Container animalInfoPage = new JPanel(layout);
+    private Container tabOneCharacterInfo = new JPanel(layout);
+    private Container tabTwoSkills = new JPanel(layout);
+    private Container tabThreeFeats = new JPanel(layout);
+    private Container tabFourInventory = new JPanel(layout);
+    private Container tabFiveMagic = new JPanel(layout);
+    private Container tabSixAnimal = new JPanel(layout);
 
     @PostConstruct
     public void init() {
@@ -68,41 +73,48 @@ public class SheetFrame extends JFrame {
         JTabbedPane tabbedPanel = new JTabbedPane();
 
         JScrollPane pane1 = new JScrollPane();
-        basicCharacterInfoPage.setPreferredSize(new Dimension(800, 1000));
-        pane1.setViewportView(basicCharacterInfoPage);
+        tabOneCharacterInfo.setPreferredSize(new Dimension(800, 1000));
+        pane1.setViewportView(tabOneCharacterInfo);
 
         JScrollPane pane2 = new JScrollPane();
-        skillsPage.setPreferredSize(new Dimension(800, Skill.getValues().size() * 25));
-        pane2.setViewportView(skillsPage);
+        tabTwoSkills.setPreferredSize(new Dimension(800, Skill.getValues().size() * 25));
+        pane2.setViewportView(tabTwoSkills);
 
         JScrollPane pane6 = new JScrollPane();
-        animalInfoPage.setPreferredSize(new Dimension(800, 1000));
-        pane6.setViewportView(animalInfoPage);
+        tabSixAnimal.setPreferredSize(new Dimension(800, 1000));
+        pane6.setViewportView(tabSixAnimal);
 
         tabbedPanel.addTab("Overview", pane1);
         tabbedPanel.addTab("Skills", pane2);
-        tabbedPanel.addTab("Feats and Special Abilities", featsPage);
-        tabbedPanel.addTab("Inventory", inventoryPage);
-        tabbedPanel.addTab("Magic", magicPage);
+        tabbedPanel.addTab("Feats and Special Abilities", tabThreeFeats);
+        tabbedPanel.addTab("Inventory", tabFourInventory);
+        tabbedPanel.addTab("Magic", tabFiveMagic);
         tabbedPanel.addTab("Animals", pane6);
 
         contentPane.add(tabbedPanel);
-        setJMenuBar(new MenuBar(generators, characterInfoComponents, tabbedPanel).createMenuBar());
+        setJMenuBar(new MenuBar(generators, page1Components, tabbedPanel).createMenuBar());
 
         this.setPreferredSize(new Dimension(920, 1000));
 
-        // Generate components for first page
-        characterInfoComponents.add(charInfoGen.generate());
-        characterInfoComponents.forEach((comp) -> basicCharacterInfoPage.add(comp));
+        // Generate components for each of the tab pages
+        page1Components.add(charInfoGen.generate());
+        page2Components.add(skillsGen.generate());
+        page3Components.add(featsGen.generate());
+        page4Components.add(invGen.generate());
+        page5Components.add(magicGen.generate());
+        page6Components.add(animalGen.generate());
 
-        // Generate panels for subsequent pages
-        skillsPage.add(skillsGen.generate());
-        featsPage.add(featsGen.generate());
-        inventoryPage.add(invGen.generate());
-        magicPage.add(magicGen.generate());
-        animalInfoPage.add(animalGen.generate());
+        addAllComponents();
+    }
 
-        // Pack components
+    private void addAllComponents() {
+        page1Components.forEach(comp -> tabOneCharacterInfo.add(comp));
+        page2Components.forEach(comp -> tabTwoSkills.add(comp));
+        page3Components.forEach(comp -> tabThreeFeats.add(comp));
+        page4Components.forEach(comp -> tabFourInventory.add(comp));
+        page5Components.forEach(comp -> tabFiveMagic.add(comp));
+        page6Components.forEach(comp -> tabSixAnimal.add(comp));
+
         pack();
     }
 }
