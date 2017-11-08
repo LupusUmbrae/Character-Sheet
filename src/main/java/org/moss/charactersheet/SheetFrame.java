@@ -17,13 +17,13 @@ import javax.swing.SpringLayout;
 
 import org.moss.charactersheet.actions.api.MenuBar;
 import org.moss.charactersheet.aspects.enums.Skill;
-import org.moss.charactersheet.gui.AnimalGui;
-import org.moss.charactersheet.gui.CharInfoGui;
-import org.moss.charactersheet.gui.FeatsGui;
 import org.moss.charactersheet.gui.GenerateGui;
-import org.moss.charactersheet.gui.InventoryGui;
-import org.moss.charactersheet.gui.MagicGui;
-import org.moss.charactersheet.gui.SkillsGui;
+import org.moss.charactersheet.gui.animal.AnimalGui;
+import org.moss.charactersheet.gui.character.feats.FeatsGui;
+import org.moss.charactersheet.gui.character.info.CharInfoGui;
+import org.moss.charactersheet.gui.character.inv.InventoryGui;
+import org.moss.charactersheet.gui.character.magic.MagicGui;
+import org.moss.charactersheet.gui.character.skills.SkillsGui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
